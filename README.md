@@ -1,0 +1,1 @@
+use prompts like 'Read .claude/skills/update-client-status/SKILL.md and follow it for BCG Vertical Reports' in Claude to generate pages
