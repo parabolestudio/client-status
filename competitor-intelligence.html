@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competitor Intelligence — Parabole</title>
+<style>
+  /* Parabole brand fonts */
+  @font-face {
+    font-family: 'Safiro';
+    src: url('fonts/Safiro-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Safiro';
+    src: url('fonts/Safiro-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Safiro';
+    src: url('fonts/Safiro-SemiBold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Safiro';
+    src: url('fonts/Safiro-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Simplon Mono';
+    src: url('fonts/SimplonMono-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Simplon Mono';
+    src: url('fonts/SimplonMono-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Simplon Mono';
+    src: url('fonts/SimplonMono-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    /* Parabole Brand Palette */
+    --off-black: #262626;
+    --paper-white: #F5F3EE;
+    --moss: #B5BCA6;
+    --yellow: #E2C641;
+    --warm-gray: #E7E4D7;
+    --cool-gray: #CFD3D3;
+    --lake-gray: #4A5150;
+    --pale-green: #DDD9B5;
+    --quartz: #EEDECB;
+    --honey: #D0AA71;
+
+    /* Semantic mappings */
+    --bg: var(--paper-white);
+    --surface: #FFFFFF;
+    --text-primary: var(--off-black);
+    --text-secondary: var(--lake-gray);
+    --text-tertiary: #8a8d84;
+    --border: var(--warm-gray);
+    --border-light: #edeae3;
+    --accent: var(--off-black);
+    --accent-yellow: var(--yellow);
+  }
+
+  body {
+    font-family: 'Safiro', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Monospace labels — à la Simplon Mono */
+  .mono {
+    font-family: 'Simplon Mono', 'JetBrains Mono', monospace;
+  }
+
+  .page {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 48px 24px 120px;
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    margin-bottom: 56px;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1.5px solid var(--off-black);
+  }
+
+  .logo svg {
+    height: 18px;
+    width: auto;
+  }
+
+  .header-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .project-title {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+  }
+
+  .project-client {
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  /* ---- STATUS STRIP ---- */
+  .status-strip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--warm-gray);
+    border-radius: 10px;
+    margin-bottom: 48px;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 14px;
+    background: var(--accent-yellow);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--off-black);
+    letter-spacing: 0.01em;
+  }
+
+  .status-pill .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--off-black);
+    opacity: 0.5;
+  }
+
+  .status-updated {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-left: auto;
+  }
+
+  /* ---- OVERVIEW: timeline + progress ---- */
+  .section {
+    margin-bottom: 48px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 14px;
+  }
+
+  .overview-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .overview-row {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+  }
+
+  .overview-row + .overview-row {
+    border-top: 1px solid var(--border-light);
+  }
+
+  .overview-row-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    width: 100px;
+    flex-shrink: 0;
+  }
+
+  .overview-row-value {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    flex: 1;
+  }
+
+  /* Timeline visual bar */
+  .timeline-bar-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .timeline-dates {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  /* Progress row */
+  .progress-row {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+    border-top: 1px solid var(--border-light);
+    gap: 20px;
+  }
+
+  .progress-row-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    width: 100px;
+    flex-shrink: 0;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 6px;
+    background: var(--border-light);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--off-black);
+    border-radius: 3px;
+    transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .progress-pct {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    min-width: 52px;
+    text-align: right;
+  }
+
+  /* ---- TASKS / MILESTONES ---- */
+  .tasks-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .task {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .task:last-child { border-bottom: none; }
+
+  .task-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .task-check {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .task-check.done {
+    background: var(--off-black);
+  }
+
+  .task-check.done svg {
+    width: 11px;
+    height: 11px;
+    color: var(--paper-white);
+  }
+
+  .task-check.current {
+    border: 2px solid var(--accent-yellow);
+    background: var(--surface);
+    position: relative;
+  }
+
+  .task-check.current::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background: var(--accent-yellow);
+    border-radius: 50%;
+    position: absolute;
+  }
+
+  .task-check.upcoming {
+    border: 2px solid var(--cool-gray);
+    background: var(--surface);
+  }
+
+  .task-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .task-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+    line-height: 1.3;
+  }
+
+  .task.is-upcoming .task-title {
+    color: var(--text-tertiary);
+  }
+
+  .task-meta {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.01em;
+  }
+
+  .task-tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 11px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    letter-spacing: 0.01em;
+  }
+
+  .task-tag.done {
+    background: #ecf0e8;
+    color: var(--lake-gray);
+  }
+
+  .task-tag.current {
+    background: #fcf4d6;
+    color: #8a7420;
+  }
+
+  .task-tag.upcoming {
+    background: var(--bg);
+    color: var(--text-tertiary);
+    border: 1px solid var(--border);
+  }
+
+  /* Subtasks */
+  .subtasks {
+    margin-top: 10px;
+    padding-left: 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .subtask {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .subtask-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: var(--cool-gray);
+  }
+
+  .subtask-icon.done { color: var(--moss); }
+
+  /* ---- DOCUMENTS ---- */
+  .documents-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .doc-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border-light);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s ease;
+  }
+
+  .doc-item:last-child { border-bottom: none; }
+  .doc-item:hover { background: var(--bg); }
+
+  .doc-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .doc-icon.figma { background: var(--warm-gray); color: var(--lake-gray); }
+  .doc-icon.folder { background: var(--warm-gray); color: var(--lake-gray); }
+  .doc-icon.sheet { background: var(--warm-gray); color: var(--lake-gray); }
+
+  .doc-info { flex: 1; min-width: 0; }
+
+  .doc-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .doc-desc {
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  .doc-arrow {
+    color: var(--cool-gray);
+    flex-shrink: 0;
+    transition: transform 0.15s ease;
+  }
+
+  .doc-item:hover .doc-arrow {
+    transform: translate(2px, -2px);
+  }
+
+  /* ---- FOOTER ---- */
+  .footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1.5px solid var(--off-black);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-updated {
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  .footer-contact {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .footer-contact:hover { color: var(--text-primary); }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 600px) {
+    .page { padding: 32px 16px 80px; }
+    .project-title { font-size: 28px; }
+    .status-updated { display: none; }
+    .overview-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .overview-row-label { width: auto; }
+    .progress-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .progress-row-label { width: auto; }
+    .progress-pct { text-align: left; }
+    .subtasks { padding-left: 0; }
+    .footer { flex-direction: column; gap: 8px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header bar -->
+  <div class="header">
+    <div class="header-top">
+      <div class="logo">
+        <svg width="423" height="51" viewBox="0 0 423 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 47.8767C0 47.8767 2.04651 50.12 6.23137 50.12C18.4186 50.12 22.0525 37.8016 24.978 25.47L0 25.5225V47.8767Z" fill="#262626"/>
+          <path d="M49.9433 3.06329C49.9433 3.06329 47.8968 0.820007 43.7119 0.820007C31.5246 0.820007 27.8908 13.1384 24.9653 25.47L49.9433 25.4175V3.06329Z" fill="#CFD3D3"/>
+          <path d="M11.7418 15.5129C15.7991 15.5129 19.0882 12.2238 19.0882 8.16646C19.0882 4.10912 15.7991 0.820007 11.7418 0.820007C7.68444 0.820007 4.39532 4.10912 4.39532 8.16646C4.39532 12.2238 7.68444 15.5129 11.7418 15.5129Z" fill="#E2C641"/>
+          <path d="M73.9432 0.910004H93.3132C103.273 0.910004 110.083 8.14 110.083 17.19C110.083 26.24 103.273 33.54 93.3132 33.54H84.7532V50.03H73.9432V0.910004ZM92.6832 23.44C96.3332 23.44 99.1432 20.84 99.1432 17.19C99.1432 13.54 96.3332 10.94 92.6832 10.94H84.7532V23.43H92.6832V23.44Z" fill="#262626"/>
+          <path d="M121.663 0.910004H142.783L155.693 50.03H144.393L142.003 40.63H122.353L119.963 50.03H108.663L121.663 0.910004ZM139.413 30.38L132.183 2.03L124.953 30.38H139.413Z" fill="#262626"/>
+          <path d="M160.963 0.910004H182.993C192.533 0.910004 197.803 6.59 197.803 13.19C197.803 18.73 193.943 24 184.893 24.07C193.173 24.77 197.383 29.12 197.383 36.98V50.03H186.503V39.78C186.503 36.41 184.323 33.82 179.973 33.82H171.763V50.03H160.953V0.910004H160.963ZM180.403 23.72C183.983 23.72 186.793 20.91 186.793 17.33C186.793 13.75 183.983 11.01 180.403 11.01H171.773V23.71H180.403V23.72Z" fill="#262626"/>
+          <path d="M214.643 0.910004H235.763L248.673 50.03H237.373L234.983 40.63H215.333L212.943 50.03H201.643L214.623 0.910004H214.643ZM232.393 30.38L225.163 2.03L217.933 30.38H232.393Z" fill="#262626"/>
+          <path d="M253.943 0.910004H275.343C284.253 0.910004 289.233 5.12 289.233 11.65C289.233 15.58 286.563 20.77 278.843 21.05C286.213 22.31 290.563 27.58 290.563 34.73C290.563 43.43 285.023 50.03 274.143 50.03H253.933V0.910004H253.943ZM272.963 20.49C275.983 20.49 277.943 18.17 277.943 15.72C277.943 13.27 276.193 10.95 272.963 10.95H264.753V20.49H272.963ZM274.223 40C277.173 40 279.343 37.68 279.343 34.74C279.343 31.8 277.163 29.62 274.223 29.62H264.753V40.01H274.223V40Z" fill="#262626"/>
+          <path d="M294.433 25.47C294.433 11.15 305.243 0 320.463 0C335.683 0 346.493 11.3 346.493 25.47C346.493 39.64 335.753 50.94 320.393 50.94C305.033 50.94 294.433 39.92 294.433 25.47ZM320.463 40.42C328.463 40.42 335.273 34.67 335.273 25.47C335.273 16.27 328.463 10.52 320.463 10.52C312.463 10.52 305.653 16.41 305.653 25.47C305.653 34.53 312.463 40.42 320.463 40.42Z" fill="#262626"/>
+          <path d="M353.173 0.910004H364.053V39.93H384.963V50.04H353.173V0.910004Z" fill="#262626"/>
+          <path d="M390.583 0.910004H422.093V11.02H401.393V20.14H419.713V29.96H401.393V39.92H422.863V50.03H390.583V0.910004Z" fill="#262626"/>
+        </svg>
+      </div>
+      <span class="header-label mono">Project tracking</span>
+    </div>
+
+    <h1 class="project-title">Competitor Intelligence</h1>
+    <p class="project-client">Project with IMP</p>
+  </div>
+
+  <!-- Status -->
+  <div class="status-strip">
+    <div class="status-pill" style="background: var(--accent-yellow)">
+      <span class="dot"></span>
+      In Progress
+    </div>
+    <span class="status-updated mono" style="font-size: 12px;">Updated Feb 9, 2026</span>
+  </div>
+
+  <!-- Overview: timeline + progress -->
+  <div class="section">
+    <div class="section-label mono">Overview</div>
+    <div class="overview-card">
+      <div class="overview-row">
+        <div class="overview-row-label mono" style="font-size: 12px;">Timeline</div>
+        <div class="timeline-dates">January 12 — February 9, 2026</div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-row-label mono" style="font-size: 12px;">Progress</div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: 65%"></div>
+        </div>
+        <div class="progress-pct mono">65%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tasks -->
+  <div class="section">
+    <div class="section-label mono">Tasks</div>
+    <div class="tasks-card">
+
+      <!-- 1. Sankey development — To do (newest) -->
+      <div class="task is-upcoming">
+        <div class="task-header">
+          <div class="task-check upcoming"></div>
+          <div class="task-body">
+            <div class="task-title">Sankey development</div>
+            <div class="task-meta mono">Feb 9 — Feb 13</div>
+          </div>
+          <div class="task-tag upcoming">Up next</div>
+        </div>
+      </div>
+
+      <!-- 2. Update with final data — In Progress -->
+      <div class="task">
+        <div class="task-header">
+          <div class="task-check current"></div>
+          <div class="task-body">
+            <div class="task-title">Update with final data</div>
+            <div class="task-meta mono">Feb 2 — Feb 6</div>
+          </div>
+          <div class="task-tag current">In progress</div>
+        </div>
+        <div class="subtasks">
+          <div class="subtask">
+            <svg class="subtask-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+            Update Flourish charts
+          </div>
+          <div class="subtask">
+            <svg class="subtask-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+            Prepare dev data doc
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Chart design — Done (with subtasks) -->
+      <div class="task">
+        <div class="task-header">
+          <div class="task-check done">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="task-body">
+            <div class="task-title">Chart design</div>
+            <div class="task-meta mono">Jan 23 — Jan 30</div>
+          </div>
+          <div class="task-tag done">Done</div>
+        </div>
+        <div class="subtasks">
+          <div class="subtask">
+            <svg class="subtask-icon done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Flourish charts
+          </div>
+          <div class="subtask">
+            <svg class="subtask-icon done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Sankeys
+          </div>
+          <div class="subtask">
+            <svg class="subtask-icon done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Page layout / dimensions
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Chart mockups — Done -->
+      <div class="task">
+        <div class="task-header">
+          <div class="task-check done">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="task-body">
+            <div class="task-title">Chart mockups</div>
+            <div class="task-meta mono">Jan 13 — Jan 21</div>
+          </div>
+          <div class="task-tag done">Done</div>
+        </div>
+      </div>
+
+      <!-- 5. Brief — Done (oldest) -->
+      <div class="task">
+        <div class="task-header">
+          <div class="task-check done">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="task-body">
+            <div class="task-title">Brief</div>
+            <div class="task-meta mono">Jan 12</div>
+          </div>
+          <div class="task-tag done">Done</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Documents -->
+  <div class="section">
+    <div class="section-label mono">Key documents</div>
+    <div class="documents-card">
+      <a href="https://www.figma.com/design/BMyjDKSLDNSUtZ9xEzfgBZ/Competitor-Intelligence--Shared-?node-id=31-2" target="_blank" class="doc-item">
+        <div class="doc-icon figma">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2H8.5A3.5 3.5 0 005 5.5 3.5 3.5 0 008.5 9H12V2z"/><path d="M12 9H8.5A3.5 3.5 0 005 12.5 3.5 3.5 0 008.5 16H12V9z"/><path d="M12 2h3.5A3.5 3.5 0 0119 5.5 3.5 3.5 0 0115.5 9H12V2z"/><path d="M19 12.5A3.5 3.5 0 0015.5 9H12v3.5a3.5 3.5 0 007 0z"/><path d="M8.5 16a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"/></svg>
+        </div>
+        <div class="doc-info">
+          <div class="doc-name">Design</div>
+          <div class="doc-desc">Visual benchmarking boards on Figma</div>
+        </div>
+        <div class="doc-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </div>
+      </a>
+      <a href="https://parabolestudio.notion.site/2f55c2fe538180bdbafcfe7f4df31c34?v=2f55c2fe538181fd86b8000ce430222b" target="_blank" class="doc-item">
+        <div class="doc-icon folder">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        </div>
+        <div class="doc-info">
+          <div class="doc-name">Detail page for airdev</div>
+          <div class="doc-desc">Flourish links and chart sizes on Notion</div>
+        </div>
+        <div class="doc-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </div>
+      </a>
+      <a href="https://docs.google.com/spreadsheets/d/1G07xc7uPx09sX1lwnScz8vd9xW3-_PtNzH44KVDYBew/edit?gid=270815699#gid=270815699" target="_blank" class="doc-item">
+        <div class="doc-icon sheet">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+        </div>
+        <div class="doc-info">
+          <div class="doc-name">Data</div>
+          <div class="doc-desc">Raw competitor data &amp; metrics on Google Sheets</div>
+        </div>
+        <div class="doc-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span class="footer-updated mono">Updated February 9, 2026</span>
+    <a href="mailto:evelina@parabole.studio" class="footer-contact">Questions? Get in touch</a>
+  </div>
+
+</div>
+</body>
+</html>
