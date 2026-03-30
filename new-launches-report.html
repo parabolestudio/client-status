@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BCG Vertical Reports — Parabole</title>
+<title>New Launches Report — Parabole</title>
 <style>
   /* Parabole brand fonts */
   @font-face {
@@ -91,7 +91,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Monospace labels — à la Simplon Mono */
+  /* Monospace labels */
   .mono {
     font-family: 'Simplon Mono', 'JetBrains Mono', monospace;
   }
@@ -218,21 +218,6 @@
     color: var(--text-secondary);
     width: 100px;
     flex-shrink: 0;
-  }
-
-  .overview-row-value {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text-primary);
-    flex: 1;
-  }
-
-  /* Timeline visual bar */
-  .timeline-bar-container {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 16px;
   }
 
   .timeline-dates {
@@ -453,7 +438,6 @@
 
   .doc-icon.figma { background: var(--warm-gray); color: var(--lake-gray); }
   .doc-icon.folder { background: var(--warm-gray); color: var(--lake-gray); }
-  .doc-icon.sheet { background: var(--warm-gray); color: var(--lake-gray); }
 
   .doc-info { flex: 1; min-width: 0; }
 
@@ -541,17 +525,17 @@
       <span class="header-label mono">Project tracking</span>
     </div>
 
-    <h1 class="project-title">BCG Vertical Reports</h1>
+    <h1 class="project-title">New Launches Report</h1>
     <p class="project-client">Project with Moloco</p>
   </div>
 
   <!-- Status -->
   <div class="status-strip">
-    <div class="status-pill" style="background: var(--warm-gray)">
+    <div class="status-pill" style="background: var(--accent-yellow)">
       <span class="dot"></span>
-      Wrapping up
+      In Progress
     </div>
-    <span class="status-updated mono" style="font-size: 12px;">Updated Mar 27, 2026</span>
+    <span class="status-updated mono" style="font-size: 12px;">Updated Mar 30, 2026</span>
   </div>
 
   <!-- Overview: timeline + progress -->
@@ -560,14 +544,14 @@
     <div class="overview-card">
       <div class="overview-row">
         <div class="overview-row-label mono" style="font-size: 12px;">Timeline</div>
-        <div class="timeline-dates">February 2 — March 31, 2026</div>
+        <div class="timeline-dates">March 30 — April 30, 2026</div>
       </div>
       <div class="progress-row">
         <div class="progress-row-label mono" style="font-size: 12px;">Progress</div>
         <div class="progress-track">
-          <div class="progress-fill" style="width: 95%"></div>
+          <div class="progress-fill" style="width: 5%"></div>
         </div>
-        <div class="progress-pct mono">95%</div>
+        <div class="progress-pct mono">5%</div>
       </div>
     </div>
   </div>
@@ -577,167 +561,95 @@
     <div class="section-label mono">Tasks</div>
     <div class="tasks-card">
 
-      <!-- 1. Share button — In Progress (with subtasks) -->
+      <!-- 1. Final checks — To do -->
+      <div class="task is-upcoming">
+        <div class="task-header">
+          <div class="task-check upcoming"></div>
+          <div class="task-body">
+            <div class="task-title">Final checks</div>
+            <div class="task-meta mono">Apr 27 — Apr 30</div>
+          </div>
+          <div class="task-tag upcoming">Up next</div>
+        </div>
+      </div>
+
+      <!-- 2. Development — To do (with subtasks) -->
+      <div class="task is-upcoming">
+        <div class="task-header">
+          <div class="task-check upcoming"></div>
+          <div class="task-body">
+            <div class="task-title">Development</div>
+            <div class="task-meta mono">Apr 13 — Apr 24</div>
+          </div>
+          <div class="task-tag upcoming">Up next</div>
+        </div>
+        <div class="subtasks">
+          <div class="subtask">
+            <svg class="subtask-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+            Webflow
+          </div>
+          <div class="subtask">
+            <svg class="subtask-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+            Charts
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Design — To do (with subtasks) -->
+      <div class="task is-upcoming">
+        <div class="task-header">
+          <div class="task-check upcoming"></div>
+          <div class="task-body">
+            <div class="task-title">Design</div>
+            <div class="task-meta mono">Apr 6 — Apr 10</div>
+          </div>
+          <div class="task-tag upcoming">Up next</div>
+        </div>
+        <div class="subtasks">
+          <div class="subtask">
+            <svg class="subtask-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+            Webpage
+          </div>
+          <div class="subtask">
+            <svg class="subtask-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+            Charts
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Creative direction — To do -->
+      <div class="task is-upcoming">
+        <div class="task-header">
+          <div class="task-check upcoming"></div>
+          <div class="task-body">
+            <div class="task-title">Creative direction</div>
+            <div class="task-meta mono">Apr 1 — Apr 6</div>
+          </div>
+          <div class="task-tag upcoming">Up next</div>
+        </div>
+      </div>
+
+      <!-- 5. Modboard & Inspo — In Progress -->
       <div class="task">
         <div class="task-header">
           <div class="task-check current"></div>
           <div class="task-body">
-            <div class="task-title">Share button</div>
-            <div class="task-meta mono">Mar 16 — Mar 27</div>
+            <div class="task-title">Modboard & Inspo</div>
+            <div class="task-meta mono">Mar 30 — Mar 31</div>
           </div>
           <div class="task-tag current">In progress</div>
         </div>
-        <div class="subtasks">
-          <div class="subtask">
-            <svg class="subtask-icon done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            Design
-          </div>
-          <div class="subtask">
-            <svg class="subtask-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
-            Development
-          </div>
-        </div>
       </div>
 
-      <!-- 2. PDFs — Done (with subtasks) -->
+      <!-- 6. Kick-off call — Done -->
       <div class="task">
         <div class="task-header">
           <div class="task-check done">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
           </div>
           <div class="task-body">
-            <div class="task-title">PDFs</div>
-            <div class="task-meta mono">Mar 9 — Mar 20</div>
-          </div>
-          <div class="task-tag done">Done</div>
-        </div>
-        <div class="subtasks">
-          <div class="subtask">
-            <svg class="subtask-icon done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            FinTech
-          </div>
-          <div class="subtask">
-            <svg class="subtask-icon done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            On-demand
-          </div>
-          <div class="subtask">
-            <svg class="subtask-icon done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            Retail (Digital + Print)
-          </div>
-        </div>
-      </div>
-
-      <!-- 3. Development [MCM] — Done -->
-      <div class="task">
-        <div class="task-header">
-          <div class="task-check done">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          </div>
-          <div class="task-body">
-            <div class="task-title">Development [MCM]</div>
-            <div class="task-meta mono">Mar 9 — Mar 20</div>
-          </div>
-          <div class="task-tag done">Done</div>
-        </div>
-      </div>
-
-      <!-- 4. Adapt design + development [On demand] — Done -->
-      <div class="task">
-        <div class="task-header">
-          <div class="task-check done">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          </div>
-          <div class="task-body">
-            <div class="task-title">Adapt design + development [On demand]</div>
-            <div class="task-meta mono">Mar 6 — Mar 13</div>
-          </div>
-          <div class="task-tag done">Done</div>
-        </div>
-      </div>
-
-      <!-- 5. New design [MCM] — Done -->
-      <div class="task">
-        <div class="task-header">
-          <div class="task-check done">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          </div>
-          <div class="task-body">
-            <div class="task-title">New design [MCM]</div>
-            <div class="task-meta mono">Feb 20 — Mar 6</div>
-          </div>
-          <div class="task-tag done">Done</div>
-        </div>
-      </div>
-
-      <!-- 5. Webflow development [FinTech] — Done -->
-      <div class="task">
-        <div class="task-header">
-          <div class="task-check done">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          </div>
-          <div class="task-body">
-            <div class="task-title">Webflow development [FinTech]</div>
-            <div class="task-meta mono">Feb 18 — Mar 4</div>
-          </div>
-          <div class="task-tag done">Done</div>
-        </div>
-      </div>
-
-      <!-- 6. Chart development [FinTech] — Done -->
-      <div class="task">
-        <div class="task-header">
-          <div class="task-check done">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          </div>
-          <div class="task-body">
-            <div class="task-title">Chart development [FinTech]</div>
-            <div class="task-meta mono">Feb 18 — Mar 4</div>
-          </div>
-          <div class="task-tag done">Done</div>
-        </div>
-      </div>
-
-      <!-- 7. Webpage + chart design [FinTech] — Done (with subtasks) -->
-      <div class="task">
-        <div class="task-header">
-          <div class="task-check done">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          </div>
-          <div class="task-body">
-            <div class="task-title">Webpage + chart design [FinTech]</div>
-            <div class="task-meta mono">Feb 9 — Feb 18</div>
-          </div>
-          <div class="task-tag done">Done</div>
-        </div>
-        <div class="subtasks">
-          <div class="subtask">
-            <svg class="subtask-icon done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            Desktop
-          </div>
-          <div class="subtask">
-            <svg class="subtask-icon done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            Mobile
-          </div>
-          <div class="subtask">
-            <svg class="subtask-icon done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            Design system
-          </div>
-          <div class="subtask">
-            <svg class="subtask-icon done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            3D visuals
-          </div>
-        </div>
-      </div>
-
-      <!-- 8. Creative direction — Done (oldest) -->
-      <div class="task">
-        <div class="task-header">
-          <div class="task-check done">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          </div>
-          <div class="task-body">
-            <div class="task-title">Creative direction</div>
-            <div class="task-meta mono">Feb 2 — Feb 6</div>
+            <div class="task-title">Kick-off call</div>
+            <div class="task-meta mono">Mar 30</div>
           </div>
           <div class="task-tag done">Done</div>
         </div>
@@ -750,109 +662,25 @@
   <div class="section">
     <div class="section-label mono">Key documents</div>
     <div class="documents-card">
-      <a href="https://www.figma.com/design/a4Sjr9HPiZkTbUdJqmWvA5/BCG-report--Shared-?node-id=2142-16" target="_blank" class="doc-item">
+      <a href="https://www.figma.com/design/M4bm4GZMLYAsbcNOS1HNWr/New-Launches-Report--Shared-?node-id=1-3&t=5i3KattpaZkCK3F9-1" target="_blank" class="doc-item">
         <div class="doc-icon figma">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2H8.5A3.5 3.5 0 005 5.5 3.5 3.5 0 008.5 9H12V2z"/><path d="M12 9H8.5A3.5 3.5 0 005 12.5 3.5 3.5 0 008.5 16H12V9z"/><path d="M12 2h3.5A3.5 3.5 0 0119 5.5 3.5 3.5 0 0115.5 9H12V2z"/><path d="M19 12.5A3.5 3.5 0 0015.5 9H12v3.5a3.5 3.5 0 007 0z"/><path d="M8.5 16a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"/></svg>
         </div>
         <div class="doc-info">
-          <div class="doc-name">Figma file</div>
-          <div class="doc-desc">Design files &amp; vertical page layouts on Figma</div>
+          <div class="doc-name">Design</div>
+          <div class="doc-desc">Report design on Figma</div>
         </div>
         <div class="doc-arrow">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
         </div>
       </a>
-      <a href="https://docs.google.com/spreadsheets/d/1XNh9BYhbfigoz2q0LzF4KUDfp5rJ8TvYL_VuGLnvtaw/edit?gid=0#gid=0" target="_blank" class="doc-item">
-        <div class="doc-icon sheet">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="3" x2="9" y2="21"></line></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Data pack</div>
-          <div class="doc-desc">Project data &amp; metrics on Google Sheets</div>
-        </div>
-        <div class="doc-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-        </div>
-      </a>
-      <a href="https://docs.google.com/document/d/1LbNMS5B69_hgS04zDPfSdfX7vVmNXadwx8VPpEe8oVM/edit?tab=t.0" target="_blank" class="doc-item">
+      <a href="https://docs.google.com/document/d/19wmvMdYD31nKRm1hIBbUBN_rUwd5lm0OZAiSq7gk3MQ/edit?tab=t.ro6lmuptxa96" target="_blank" class="doc-item">
         <div class="doc-icon folder">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
         </div>
         <div class="doc-info">
-          <div class="doc-name">Copy file</div>
-          <div class="doc-desc">Report copy on Google Docs</div>
-        </div>
-        <div class="doc-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-        </div>
-      </a>
-      <a href="https://moloco-dev-3de6cf3f9a6b20cd15bd1f7048f4.webflow.io/bcg-report-fintech" target="_blank" class="doc-item">
-        <div class="doc-icon folder">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">FinTech Webflow</div>
-          <div class="doc-desc">Development preview on Webflow</div>
-        </div>
-        <div class="doc-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-        </div>
-      </a>
-      <a href="https://app.markup.io/markup/f0e0ec8b-0de7-4e68-a477-0629db1d2c76?view_mode=Desktop" target="_blank" class="doc-item">
-        <div class="doc-icon folder">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">FinTech feedback</div>
-          <div class="doc-desc">Visual feedback on Markup</div>
-        </div>
-        <div class="doc-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-        </div>
-      </a>
-      <a href="https://wwwstaging.moloco.com/dev/ai-disruption-index-on-demand-edition" target="_blank" class="doc-item">
-        <div class="doc-icon folder">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">On-demand Webflow</div>
-          <div class="doc-desc">Development preview on Webflow</div>
-        </div>
-        <div class="doc-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-        </div>
-      </a>
-      <a href="https://app.markup.io/invite/accept/4KhWPrJE" target="_blank" class="doc-item">
-        <div class="doc-icon folder">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">On-demand feedback</div>
-          <div class="doc-desc">Visual feedback on Markup</div>
-        </div>
-        <div class="doc-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-        </div>
-      </a>
-      <a href="https://wwwstaging.moloco.com/dev/retail" target="_blank" class="doc-item">
-        <div class="doc-icon folder">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Retail Webflow</div>
-          <div class="doc-desc">Development preview on Webflow</div>
-        </div>
-        <div class="doc-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-        </div>
-      </a>
-      <a href="https://app.markup.io/invite/accept/_WytHYae" target="_blank" class="doc-item">
-        <div class="doc-icon folder">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Retail feedback</div>
-          <div class="doc-desc">Visual feedback on Markup</div>
+          <div class="doc-name">Brief & copy</div>
+          <div class="doc-desc">Project brief and copy on Google Docs</div>
         </div>
         <div class="doc-arrow">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
@@ -863,7 +691,7 @@
 
   <!-- Footer -->
   <div class="footer">
-    <span class="footer-updated mono">Updated March 27, 2026</span>
+    <span class="footer-updated mono">Updated March 30, 2026</span>
     <a href="mailto:evelina@parabole.studio" class="footer-contact">Questions? Get in touch</a>
   </div>
 
