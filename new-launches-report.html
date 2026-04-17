@@ -531,11 +531,11 @@
 
   <!-- Status -->
   <div class="status-strip">
-    <div class="status-pill" style="background: var(--accent-yellow)">
+    <div class="status-pill" style="background: var(--cool-gray)">
       <span class="dot"></span>
-      In Progress
+      Paused
     </div>
-    <span class="status-updated mono" style="font-size: 12px;">Updated Apr 10, 2026</span>
+    <span class="status-updated mono" style="font-size: 12px;">Updated Apr 17, 2026</span>
   </div>
 
   <!-- Overview: timeline + progress -->
@@ -544,14 +544,14 @@
     <div class="overview-card">
       <div class="overview-row">
         <div class="overview-row-label mono" style="font-size: 12px;">Timeline</div>
-        <div class="timeline-dates">March 30 — May 15, 2026</div>
+        <div class="timeline-dates">March 30 — June 30, 2026</div>
       </div>
       <div class="progress-row">
         <div class="progress-row-label mono" style="font-size: 12px;">Progress</div>
         <div class="progress-track">
-          <div class="progress-fill" style="width: 20%"></div>
+          <div class="progress-fill" style="width: 30%"></div>
         </div>
-        <div class="progress-pct mono">20%</div>
+        <div class="progress-pct mono">30%</div>
       </div>
     </div>
   </div>
@@ -567,7 +567,6 @@
           <div class="task-check upcoming"></div>
           <div class="task-body">
             <div class="task-title">Final checks</div>
-            <div class="task-meta mono">Apr 30 — May 8</div>
           </div>
           <div class="task-tag upcoming">Up next</div>
         </div>
@@ -579,7 +578,6 @@
           <div class="task-check upcoming"></div>
           <div class="task-body">
             <div class="task-title">Development</div>
-            <div class="task-meta mono">Apr 20 — May 1</div>
           </div>
           <div class="task-tag upcoming">Up next</div>
         </div>
@@ -595,15 +593,14 @@
         </div>
       </div>
 
-      <!-- 3. Design — To do (with subtasks) -->
-      <div class="task is-upcoming">
+      <!-- 3. Design — In Progress (with subtasks) -->
+      <div class="task">
         <div class="task-header">
-          <div class="task-check upcoming"></div>
+          <div class="task-check current"></div>
           <div class="task-body">
             <div class="task-title">Design</div>
-            <div class="task-meta mono">Apr 10 — Apr 17</div>
           </div>
-          <div class="task-tag upcoming">Up next</div>
+          <div class="task-tag current">In progress</div>
         </div>
         <div class="subtasks">
           <div class="subtask">
@@ -617,15 +614,17 @@
         </div>
       </div>
 
-      <!-- 4. Creative direction — In Progress -->
+      <!-- 4. Creative direction — Done -->
       <div class="task">
         <div class="task-header">
-          <div class="task-check current"></div>
+          <div class="task-check done">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
           <div class="task-body">
             <div class="task-title">Creative direction</div>
             <div class="task-meta mono">Apr 1 — Apr 13</div>
           </div>
-          <div class="task-tag current">In progress</div>
+          <div class="task-tag done">Done</div>
         </div>
       </div>
 
@@ -693,7 +692,7 @@
 
   <!-- Footer -->
   <div class="footer">
-    <span class="footer-updated mono">Updated April 10, 2026</span>
+    <span class="footer-updated mono">Updated April 17, 2026</span>
     <a href="mailto:evelina@parabole.studio" class="footer-contact">Questions? Get in touch</a>
   </div>
 
