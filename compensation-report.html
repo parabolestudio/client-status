@@ -311,6 +311,11 @@
     background: var(--surface);
   }
 
+  .task-check.paused {
+    border: 2px solid var(--cool-gray);
+    background: var(--surface);
+  }
+
   .task-body { flex: 1; min-width: 0; }
 
   .task-title {
@@ -322,6 +327,7 @@
   }
 
   .task.is-upcoming .task-title { color: var(--text-tertiary); }
+  .task.is-paused .task-title { color: var(--text-tertiary); }
 
   .task-meta {
     font-size: 12px;
@@ -354,6 +360,36 @@
     color: var(--text-tertiary);
     border: 1px solid var(--border);
   }
+
+  .task-tag.paused {
+    background: var(--cool-gray);
+    color: var(--lake-gray);
+  }
+
+  .subtasks {
+    margin-top: 10px;
+    padding-left: 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .subtask {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .subtask-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: var(--cool-gray);
+  }
+
+  .subtask-icon.done { color: var(--moss); }
 
   .documents-card {
     background: var(--surface);
@@ -481,7 +517,7 @@
       <span class="dot"></span>
       In Progress
     </div>
-    <span class="status-updated mono" style="font-size: 12px;">Updated May 12, 2026</span>
+    <span class="status-updated mono" style="font-size: 12px;">Updated Jun 2, 2026</span>
   </div>
 
   <!-- Overview: timeline + progress -->
@@ -495,9 +531,9 @@
       <div class="progress-row">
         <div class="progress-row-label mono" style="font-size: 12px;">Progress</div>
         <div class="progress-track">
-          <div class="progress-fill" style="width: 40%"></div>
+          <div class="progress-fill" style="width: 50%"></div>
         </div>
-        <div class="progress-pct mono">40%</div>
+        <div class="progress-pct mono">50%</div>
       </div>
     </div>
   </div>
@@ -507,15 +543,15 @@
     <div class="section-label mono">Tasks</div>
     <div class="tasks-card">
 
-      <!-- 1. v2: C-suite page — To do -->
-      <div class="task is-upcoming">
+      <!-- 1. v2: C-suite page — Paused -->
+      <div class="task is-paused">
         <div class="task-header">
-          <div class="task-check upcoming"></div>
+          <div class="task-check paused"></div>
           <div class="task-body">
             <div class="task-title">v2: C-suite page</div>
             <div class="task-meta mono">May 25 — Jun 6</div>
           </div>
-          <div class="task-tag upcoming">Up next</div>
+          <div class="task-tag paused">Paused</div>
         </div>
         <div class="subtasks">
           <div class="subtask">
@@ -533,31 +569,33 @@
         </div>
       </div>
 
-      <!-- 2. Final checks v1 — To do -->
-      <div class="task is-upcoming">
-        <div class="task-header">
-          <div class="task-check upcoming"></div>
-          <div class="task-body">
-            <div class="task-title">Final checks v1</div>
-            <div class="task-meta mono">May 18 — May 22</div>
-          </div>
-          <div class="task-tag upcoming">Up next</div>
-        </div>
-      </div>
-
-      <!-- 3. Development (Bubble + charts) — In Progress -->
+      <!-- 2. Final checks / updates — In Progress -->
       <div class="task">
         <div class="task-header">
           <div class="task-check current"></div>
           <div class="task-body">
-            <div class="task-title">Development (Bubble + charts)</div>
-            <div class="task-meta mono">Apr 2 — May 15</div>
+            <div class="task-title">Final checks / updates</div>
+            <div class="task-meta mono">May 18 — Jun 5</div>
           </div>
           <div class="task-tag current">In progress</div>
         </div>
       </div>
 
-      <!-- 3. Dev handover — Done -->
+      <!-- 3. Development (Bubble + charts) — Done -->
+      <div class="task">
+        <div class="task-header">
+          <div class="task-check done">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="task-body">
+            <div class="task-title">Development (Bubble + charts)</div>
+            <div class="task-meta mono">Apr 2 — May 15</div>
+          </div>
+          <div class="task-tag done">Done</div>
+        </div>
+      </div>
+
+      <!-- 4. Dev handover — Done -->
       <div class="task">
         <div class="task-header">
           <div class="task-check done">
@@ -636,7 +674,7 @@
 
   <!-- Footer -->
   <div class="footer">
-    <span class="footer-updated mono">Updated May 12, 2026</span>
+    <span class="footer-updated mono">Updated Jun 2, 2026</span>
     <a href="mailto:evelina@parabole.studio" class="footer-contact">Questions? Get in touch</a>
   </div>
 
