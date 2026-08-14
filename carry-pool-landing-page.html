@@ -377,6 +377,64 @@
     border: 1px solid var(--border);
   }
 
+  /* ---- DOCUMENTS ---- */
+  .documents-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .doc-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border-light);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s ease;
+  }
+
+  .doc-item:last-child { border-bottom: none; }
+  .doc-item:hover { background: var(--bg); }
+
+  .doc-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .doc-icon.figma { background: var(--warm-gray); color: var(--lake-gray); }
+  .doc-icon.folder { background: var(--warm-gray); color: var(--lake-gray); }
+
+  .doc-info { flex: 1; min-width: 0; }
+
+  .doc-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .doc-desc {
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  .doc-arrow {
+    color: var(--cool-gray);
+    flex-shrink: 0;
+    transition: transform 0.15s ease;
+  }
+
+  .doc-item:hover .doc-arrow {
+    transform: translate(2px, -2px);
+  }
+
   /* ---- FOOTER ---- */
   .footer {
     margin-top: 64px;
@@ -449,7 +507,7 @@
       <span class="dot"></span>
       In Progress
     </div>
-    <span class="status-updated mono" style="font-size: 12px;">Updated Jul 31, 2026</span>
+    <span class="status-updated mono" style="font-size: 12px;">Updated Aug 14, 2026</span>
   </div>
 
   <!-- Overview: timeline + progress -->
@@ -463,9 +521,9 @@
       <div class="progress-row">
         <div class="progress-row-label mono" style="font-size: 12px;">Progress</div>
         <div class="progress-track">
-          <div class="progress-fill" style="width: 40%"></div>
+          <div class="progress-fill" style="width: 55%"></div>
         </div>
-        <div class="progress-pct mono">40%</div>
+        <div class="progress-pct mono">55%</div>
       </div>
     </div>
   </div>
@@ -487,15 +545,15 @@
         </div>
       </div>
 
-      <!-- 2. Dev & integration — To do -->
-      <div class="task is-upcoming">
+      <!-- 2. Dev & integration — In Progress -->
+      <div class="task">
         <div class="task-header">
-          <div class="task-check upcoming"></div>
+          <div class="task-check current"></div>
           <div class="task-body">
             <div class="task-title">Dev &amp; integration</div>
             <div class="task-meta mono">Aug 10 — Aug 28</div>
           </div>
-          <div class="task-tag upcoming">Up next</div>
+          <div class="task-tag current">In progress</div>
         </div>
       </div>
 
@@ -530,9 +588,40 @@
     </div>
   </div>
 
+  <!-- Documents -->
+  <div class="section">
+    <div class="section-label mono">Key documents</div>
+    <div class="documents-card">
+      <a href="https://www.figma.com/design/LCGoQyoLgGZbEW83HlQfEl/CarryPool-ad---page--Shared-?node-id=0-1" target="_blank" class="doc-item">
+        <div class="doc-icon figma">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2H8.5A3.5 3.5 0 005 5.5 3.5 3.5 0 008.5 9H12V2z"/><path d="M12 9H8.5A3.5 3.5 0 005 12.5 3.5 3.5 0 008.5 16H12V9z"/><path d="M12 2h3.5A3.5 3.5 0 0119 5.5 3.5 3.5 0 0115.5 9H12V2z"/><path d="M19 12.5A3.5 3.5 0 0015.5 9H12v3.5a3.5 3.5 0 007 0z"/><path d="M8.5 16a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"/></svg>
+        </div>
+        <div class="doc-info">
+          <div class="doc-name">Design</div>
+          <div class="doc-desc">Ad &amp; page design on Figma</div>
+        </div>
+        <div class="doc-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </div>
+      </a>
+      <a href="https://parabolestudio.github.io/carrypool-page/" target="_blank" class="doc-item">
+        <div class="doc-icon folder">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        </div>
+        <div class="doc-info">
+          <div class="doc-name">Live page</div>
+          <div class="doc-desc">Published CarryPool page</div>
+        </div>
+        <div class="doc-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </div>
+      </a>
+    </div>
+  </div>
+
   <!-- Footer -->
   <div class="footer">
-    <span class="footer-updated mono">Updated July 31, 2026</span>
+    <span class="footer-updated mono">Updated August 14, 2026</span>
     <a href="mailto:evelina@parabole.studio" class="footer-contact">Questions? Get in touch</a>
   </div>
 
