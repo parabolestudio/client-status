@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>UX Atelier · Parabole</title>
+<style>
+  :root{
+    --paper:#F6F4EF; --card:#FFFFFF; --ink:#1C1B1A; --ink2:#6D6860; --ink3:#9B958A;
+    --line:#E7E3DA; --line2:#D8D3C7;
+    --accent:#1E6E64; --accent-soft:#E3EEEC;
+    --good:#2F7A44; --good-bg:#EAF4EC; --bad:#BE4A2E; --bad-bg:#FAEDE8;
+    --gold:#C99A2E;
+    --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
+    --r:14px; --r2:10px;
+    --shadow:0 1px 2px rgba(28,27,26,.05), 0 6px 20px rgba(28,27,26,.06);
+    --serif:Georgia,'Iowan Old Style','Times New Roman',serif;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Inter','Helvetica Neue',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{font-size:16px}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5;
+       min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
+  #app{max-width:640px;margin:0 auto;padding:var(--s5) var(--s4) 120px}
+  button{font-family:var(--sans);cursor:pointer;border:none;background:none;color:inherit}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);
+       min-height:48px;padding:0 var(--s5);border-radius:999px;font-size:1rem;font-weight:600;
+       transition:transform .06s ease, opacity .15s}
+  .btn:active{transform:scale(.97)}
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-ghost{border:1.5px solid var(--line2);color:var(--ink)}
+  .btn-accent{background:var(--accent);color:#fff}
+  .btn-block{width:100%}
+  .fade{animation:fade .28s ease both}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* ---------- header / map ---------- */
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s5)}
+  .brand{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);font-weight:600}
+  .xp-pill{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);
+           border-radius:999px;padding:6px 14px;font-weight:700;font-size:.85rem;box-shadow:var(--shadow)}
+  .xp-pill svg{flex:none}
+  .hero{margin-bottom:var(--s6)}
+  .hero h1{font-family:var(--serif);font-size:2rem;line-height:1.15;font-weight:600;margin-bottom:var(--s3)}
+  .hero p{color:var(--ink2);max-width:46ch}
+  .tabs{display:flex;gap:var(--s2);margin-bottom:var(--s5)}
+  .tab{flex:1;min-height:44px;border-radius:999px;font-weight:600;font-size:.9rem;color:var(--ink2);
+       border:1.5px solid transparent}
+  .tab.on{background:var(--card);border-color:var(--line);color:var(--ink);box-shadow:var(--shadow)}
+
+  .module{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+          box-shadow:var(--shadow);margin-bottom:var(--s4);overflow:hidden}
+  .module-head{display:flex;align-items:flex-start;gap:var(--s4);padding:var(--s5)}
+  .module-num{flex:none;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+              font-family:var(--serif);font-size:1.15rem;font-weight:700;background:var(--accent-soft);color:var(--accent)}
+  .module.locked .module-num{background:#F0EEE7;color:var(--ink3)}
+  .module-title{font-size:1.05rem;font-weight:700;margin-bottom:2px}
+  .module-tag{font-size:.85rem;color:var(--ink2)}
+  .module-prog{margin-left:auto;flex:none;font-size:.78rem;font-weight:700;color:var(--ink3);padding-top:4px}
+  .module-prog.done{color:var(--good)}
+  .lessons{border-top:1px solid var(--line);padding:var(--s3) var(--s5) var(--s5)}
+  .lesson{display:flex;align-items:center;gap:var(--s3);width:100%;text-align:left;
+          min-height:52px;padding:var(--s2) 0;font-size:.95rem}
+  .lesson + .lesson{border-top:1px solid var(--line)}
+  .lesson .dot{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--line2);
+               display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem}
+  .lesson.done .dot{background:var(--good);border-color:var(--good)}
+  .lesson.play .dot{border-color:var(--accent)}
+  .lesson .l-name{font-weight:600}
+  .lesson .l-meta{font-size:.8rem;color:var(--ink3)}
+  .lesson .go{margin-left:auto;flex:none;color:var(--accent);font-weight:700;font-size:.85rem}
+  .lesson.locked{color:var(--ink3)}
+  .lesson.locked .l-name{font-weight:500}
+  .lesson.locked .go{color:var(--ink3);font-weight:500;font-size:.78rem}
+  .foot-note{color:var(--ink3);font-size:.8rem;text-align:center;margin-top:var(--s6);line-height:1.6}
+
+  /* ---------- lesson screen ---------- */
+  .lesson-top{display:flex;align-items:center;gap:var(--s4);margin-bottom:var(--s5)}
+  .icon-btn{flex:none;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+            background:var(--card);border:1px solid var(--line)}
+  .prog-track{flex:1;height:10px;border-radius:999px;background:#E9E6DE;overflow:hidden}
+  .prog-fill{height:100%;border-radius:999px;background:var(--accent);transition:width .35s ease}
+  .streak{flex:none;display:flex;align-items:center;gap:4px;font-weight:800;font-size:.9rem;color:var(--ink3)}
+  .streak.hot{color:var(--gold)}
+  .ex-kicker{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent);margin-bottom:var(--s3)}
+  .ex-prompt{font-family:var(--serif);font-size:1.3rem;line-height:1.3;font-weight:600;margin-bottom:var(--s5)}
+
+  .opts{display:flex;flex-direction:column;gap:var(--s3)}
+  .opt{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r2);
+       padding:var(--s4);text-align:left;font-size:.98rem;min-height:52px;width:100%;
+       display:flex;align-items:center;gap:var(--s3);transition:border-color .12s, background .12s}
+  .opt .key{flex:none;width:26px;height:26px;border-radius:8px;background:#F0EEE7;color:var(--ink2);
+            display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700}
+  .opt.sel{border-color:var(--ink);background:#FBFAF7}
+  .opt.right{border-color:var(--good);background:var(--good-bg)}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+  .opt:disabled{cursor:default}
+  .tf-row{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3)}
+  .tf-row .opt{justify-content:center;font-weight:700;min-height:64px}
+
+  .ab-wrap{display:grid;grid-template-columns:1fr;gap:var(--s4)}
+  @media(min-width:560px){.ab-wrap{grid-template-columns:1fr 1fr}}
+  .ab-card{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:var(--s4);
+           text-align:left;width:100%;transition:border-color .12s}
+  .ab-card.sel{border-color:var(--ink)}
+  .ab-card.right{border-color:var(--good);box-shadow:0 0 0 3px var(--good-bg)}
+  .ab-card.wrong{border-color:var(--bad);box-shadow:0 0 0 3px var(--bad-bg)}
+  .ab-label{display:inline-flex;width:28px;height:28px;border-radius:8px;background:var(--ink);color:#fff;
+            align-items:center;justify-content:center;font-weight:700;font-size:.8rem;margin-bottom:var(--s3)}
+
+  /* ---------- mockups ---------- */
+  .mock{background:#FDFCFA;border:1px solid var(--line);border-radius:var(--r2);padding:var(--s4);
+        pointer-events:none;font-size:.7rem;color:var(--ink2)}
+  .spot-mock .mock{pointer-events:auto}
+  .m-bar{height:8px;border-radius:99px;background:#DED9CD}
+  .m-bar.dark{background:#B7B1A2;height:10px}
+  .m-bar.xd{background:#8F887A;height:12px}
+  .m-row{display:flex;align-items:center}
+  .m-col{display:flex;flex-direction:column}
+  .m-btn{display:inline-flex;align-items:center;justify-content:center;border-radius:8px;
+         font-weight:700;font-size:.68rem;padding:7px 12px;line-height:1}
+  .m-btn.p{background:var(--ink);color:#fff}
+  .m-btn.g{border:1.2px solid var(--line2);color:var(--ink)}
+  .m-btn.d{background:#B3402A;color:#fff}
+  .m-chip{display:inline-flex;align-items:center;gap:5px;border:1.2px solid var(--line2);background:#fff;
+          border-radius:999px;padding:4px 10px;font-size:.66rem;font-weight:600;color:var(--ink)}
+  .m-chip b{color:var(--ink3);font-weight:700}
+  .m-card{background:#fff;border:1px solid var(--line);border-radius:8px}
+  .m-chart{display:flex;align-items:flex-end;gap:5px;height:44px}
+  .m-chart i{display:block;width:12px;border-radius:3px 3px 0 0;background:var(--accent);opacity:.85}
+  .m-field{border:1.2px solid var(--line2);border-radius:7px;height:26px;background:#fff}
+  .m-check{display:flex;align-items:center;gap:6px;font-size:.66rem;font-weight:600;color:var(--ink)}
+  .m-check i{width:11px;height:11px;border:1.2px solid var(--line2);border-radius:3px;background:#fff;flex:none}
+  .m-check.on i{background:var(--accent);border-color:var(--accent)}
+  .m-cap{font-size:.62rem;color:var(--ink3)}
+  .hot{position:relative;border-radius:8px;transition:box-shadow .12s;cursor:pointer}
+  .hot.sel{box-shadow:0 0 0 2.5px var(--ink)}
+  .hot.right{box-shadow:0 0 0 2.5px var(--good)}
+  .hot.wrong{box-shadow:0 0 0 2.5px var(--bad)}
+  .spot-hint{margin-top:var(--s3);font-size:.8rem;color:var(--ink3);text-align:center}
+
+  /* ---------- feedback sheet ---------- */
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;transform:translateY(105%);
+         transition:transform .3s cubic-bezier(.32,.72,.35,1)}
+  .sheet.open{transform:none}
+  .sheet-inner{max-width:640px;margin:0 auto;background:var(--card);border-radius:20px 20px 0 0;
+               box-shadow:0 -8px 40px rgba(28,27,26,.18);padding:var(--s5) var(--s4) calc(var(--s5) + env(safe-area-inset-bottom))}
+  .sheet.ok .sheet-inner{background:var(--good-bg)}
+  .sheet.no .sheet-inner{background:var(--bad-bg)}
+  .sheet-head{display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s3)}
+  .verdict-ic{flex:none;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff}
+  .sheet.ok .verdict-ic{background:var(--good)} .sheet.no .verdict-ic{background:var(--bad)}
+  .verdict-t{font-weight:800;font-size:1.05rem}
+  .sheet.ok .verdict-t{color:var(--good)} .sheet.no .verdict-t{color:var(--bad)}
+  .sheet-xp{margin-left:auto;font-weight:800;font-size:.85rem;color:var(--gold)}
+  .why{font-size:.95rem;line-height:1.55;color:var(--ink);margin-bottom:var(--s4)}
+  .why b{font-weight:700}
+  .src-chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line2);
+            border-radius:999px;padding:5px 12px;font-size:.75rem;font-weight:700;color:var(--ink2);margin-bottom:var(--s4)}
+  .src-chip svg{flex:none}
+
+  /* ---------- end screen ---------- */
+  .end-wrap{text-align:center;padding-top:var(--s6)}
+  .end-ring{width:132px;height:132px;margin:0 auto var(--s5)}
+  .end-ring .num{font-family:var(--serif);font-size:1.9rem;font-weight:700}
+  .end-ring .den{font-size:.8rem;color:var(--ink3);font-weight:600}
+  .end-title{font-family:var(--serif);font-size:1.6rem;font-weight:600;margin-bottom:var(--s2)}
+  .end-sub{color:var(--ink2);margin-bottom:var(--s5)}
+  .end-stats{display:flex;justify-content:center;gap:var(--s3);margin-bottom:var(--s6)}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:var(--s3) var(--s4);min-width:88px}
+  .stat .v{font-weight:800;font-size:1.1rem}
+  .stat .k{font-size:.72rem;color:var(--ink3);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+  .recap{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+         padding:var(--s5);margin-bottom:var(--s5)}
+  .recap h3{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:var(--s3)}
+  .recap-item{display:flex;gap:var(--s3);padding:var(--s2) 0;font-size:.92rem;align-items:flex-start}
+  .recap-item svg{flex:none;margin-top:3px}
+  .end-actions{display:flex;flex-direction:column;gap:var(--s3)}
+
+  /* ---------- field guide ---------- */
+  .guide-mod{background:var(--card);border:1px solid var(--line);border-radius:var(--r);margin-bottom:var(--s4);overflow:hidden}
+  .guide-head{width:100%;display:flex;align-items:center;gap:var(--s3);padding:var(--s4) var(--s5);text-align:left}
+  .guide-head .t{font-weight:700;font-size:.98rem}
+  .guide-head .chev{margin-left:auto;transition:transform .2s;color:var(--ink3)}
+  .guide-mod.open .chev{transform:rotate(180deg)}
+  .guide-body{display:none;border-top:1px solid var(--line);padding:var(--s4) var(--s5) var(--s5)}
+  .guide-mod.open .guide-body{display:block}
+  .rule{display:flex;gap:var(--s3);padding:var(--s3) 0;align-items:flex-start;font-size:.92rem}
+  .rule + .rule{border-top:1px solid var(--line)}
+  .rule svg{flex:none;margin-top:3px}
+  .rule .r-src{display:block;font-size:.75rem;color:var(--ink3);font-weight:600;margin-top:2px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="sheet" id="sheet"><div class="sheet-inner" id="sheetInner"></div></div>
+
+<script>
+/* ============================================================
+   UX Atelier — a field course in web UX for data storytellers
+   v1 prototype for the Parabole team
+   ============================================================ */
+
+const ICONS = {
+  star:'<svg width="14" height="14" viewBox="0 0 24 24" fill="#C99A2E"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2z"/></svg>',
+  flame:'<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c-4.4 0-8-3.1-8-7.4 0-3 1.7-5.2 3.2-6.9.8-.9 2.3-.3 2.3.9v1.1c0 .8.9 1.3 1.5.8 1.5-1.2 3-3.4 3-6 0-.9 1-1.4 1.7-.9C18.2 5.4 20 9 20 12.9 20 18.9 16.4 22 12 22z"/></svg>',
+  check:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+  cross:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>',
+  lock:'<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17 10V7a5 5 0 0 0-10 0v3H5v12h14V10h-2zm-8-3a3 3 0 0 1 6 0v3H9V7z"/></svg>',
+  back:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>',
+  close:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>',
+  book:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-4.5"/></svg>',
+  chev:'<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+  bulb:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1E6E64" stroke-width="2" stroke-linecap="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.4 1 2.3h6c0-.9.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>'
+};
+
+/* -------------------- EXERCISE DATA -------------------- */
+const EX_M1L1 = [
+  {type:'ab', prompt:'Two builds of the same KPI card. Which one would you ship?', correct:0,
+    mockA:`<div class="mock" style="padding:16px"><div class="m-col" style="gap:16px"><div class="m-col" style="gap:8px"><div class="m-bar xd" style="width:55%"></div><div class="m-bar" style="width:35%"></div></div><div class="m-chart"><i style="height:40%"></i><i style="height:65%"></i><i style="height:50%"></i><i style="height:90%"></i><i style="height:70%"></i><i style="height:82%"></i></div><div class="m-col" style="gap:8px"><div class="m-bar" style="width:80%"></div><div class="m-bar" style="width:60%"></div></div></div></div>`,
+    mockB:`<div class="mock" style="padding:9px 21px 14px 13px"><div class="m-col" style="gap:19px"><div class="m-col" style="gap:3px"><div class="m-bar xd" style="width:55%"></div><div class="m-bar" style="width:35%;margin-left:7px"></div></div><div class="m-chart" style="gap:9px"><i style="height:40%"></i><i style="height:65%"></i><i style="height:50%"></i><i style="height:90%"></i><i style="height:70%"></i><i style="height:82%"></i></div><div class="m-col" style="gap:11px"><div class="m-bar" style="width:80%"></div><div class="m-bar" style="width:60%"></div></div></div></div>`,
+    rule:'Space on a scale, not by eye',
+    why:'A is spaced on a consistent scale — every gap is 8 or 16 px, so the card has rhythm. B uses 3, 9, 11 and 19 px: viewers can’t name the problem, but they feel the noise. Pick a base unit (8 px works) and make every margin, padding and gap a multiple of it.',
+    src:'Material Design · 8dp grid'},
+  {type:'mcq', prompt:'A layout uses gaps of 8, 16, 21, 24 and 32 px. Which value is breaking the system?', correct:1,
+    options:['16 px','21 px','24 px','32 px'],
+    rule:'Every gap comes from the scale',
+    why:'8, 16, 24 and 32 are all beats of an 8 px base. 21 belongs to no rhythm — round it to 20 (on a 4 px sub-grid) or 24. When spacing comes from a scale, design decisions get faster and handoff gets cleaner: developers map your gaps to spacing tokens instead of hand-measuring screenshots.',
+    src:'Material Design · spacing tokens'},
+  {type:'spot', prompt:'One of these cards drifted off the grid.', correct:1,
+    mock:`<div class="mock"><div class="m-col" style="gap:12px"><div class="hot m-card" style="padding:12px"><div class="m-col" style="gap:8px"><div class="m-bar dark" style="width:45%"></div><div class="m-bar" style="width:75%"></div></div></div><div class="hot m-card" style="padding:12px;margin-left:14px"><div class="m-col" style="gap:8px"><div class="m-bar dark" style="width:50%"></div><div class="m-bar" style="width:70%"></div></div></div><div class="hot m-card" style="padding:12px"><div class="m-col" style="gap:8px"><div class="m-bar dark" style="width:40%"></div><div class="m-bar" style="width:78%"></div></div></div></div></div>`,
+    rule:'Everything aligns to something',
+    why:'The middle card’s left edge sits 14 px off the shared line the other two obey. Shared edges are the cheapest structure a layout has — the eye uses them as rails. Unintended indents read as mistakes, and enough of them read as a broken product.',
+    src:'IxDF · alignment & Gestalt'},
+  {type:'tf', prompt:'Whitespace is unused space — a denser layout communicates more.', correct:1,
+    rule:'Whitespace is doing work',
+    why:'Empty space is what groups related items, separates sections and gives the eye a path. Cram it out and users lose the structure, not just the polish — on the web people scan before they read, and scanning runs on space.',
+    src:'NN/g · how users read online'},
+  {type:'mcq', prompt:'Your data story looks perfect on the 1440 px artboard. What do you check before handoff?', correct:0,
+    options:['How it reflows between 320 and 1024 px','That image exports are 2×','That hex values match the brand book','Nothing — responsive behavior is the developer’s job'],
+    rule:'The web has no canvas',
+    why:'A web layout is a set of rules, not a picture. Much of your audience meets the story on a phone, and what stacks, what hides and what the chart becomes at 360 px are design decisions. If you don’t make them, the browser will make them for you — badly.',
+    src:'Responsive web design · A List Apart'},
+  {type:'ab', prompt:'Same card, two paddings. Which one holds together?', correct:1,
+    mockA:`<div class="mock" style="padding:4px"><div class="m-col" style="gap:8px"><div class="m-bar dark" style="width:60%"></div><div class="m-bar"></div><div class="m-bar" style="width:90%"></div><div class="m-bar" style="width:40%"></div></div></div>`,
+    mockB:`<div class="mock" style="padding:16px"><div class="m-col" style="gap:8px"><div class="m-bar dark" style="width:60%"></div><div class="m-bar"></div><div class="m-bar" style="width:90%"></div><div class="m-bar" style="width:40%"></div></div></div>`,
+    rule:'Content never touches the container',
+    why:'In B, padding gives the content room to belong to the card. In A, text sits 4 px from the edge — it reads as clipped, like a rendering bug. Interior padding is part of the container’s anatomy; 16 px is a comfortable floor for cards.',
+    src:'Refactoring UI · spacing'},
+  {type:'tf', prompt:'Perfect mathematical centering can still look wrong — icons and quote marks sometimes need a manual nudge.', correct:0,
+    rule:'The eye outranks the ruler',
+    why:'A right-pointing play triangle centered by geometry looks like it’s sliding left, so you nudge it right until it looks still. Scales and grids set the structure; the last 2% belongs to trained eyes — the part of your print instinct that transfers to the web perfectly.',
+    src:'Optical adjustment · design craft'},
+];
+const EX_M1L2 = [
+  {type:'mcq', prompt:'Before color, borders or typography — what does a viewer use first to decide which elements belong together?', correct:1,
+    options:['Matching colors','The distance between them','Borders and boxes','Consistent fonts'],
+    rule:'Distance is read before decoration',
+    why:'Gestalt’s law of proximity: things near each other are perceived as a group, instantly and pre-attentively. Color and containers reinforce grouping, but spacing does the heavy lifting — which is why a layout with wrong distances feels wrong no matter how beautiful the styling is.',
+    src:'Laws of UX · Law of Proximity'},
+  {type:'ab', prompt:'A signup form. In which version is it obvious which label owns which field?', correct:1,
+    mockA:`<div class="mock"><div class="m-col" style="gap:12px"><div class="m-bar dark" style="width:30%"></div><div class="m-field"></div><div class="m-bar dark" style="width:38%"></div><div class="m-field"></div><div class="m-bar dark" style="width:26%"></div><div class="m-field"></div></div></div>`,
+    mockB:`<div class="mock"><div class="m-col" style="gap:20px"><div class="m-col" style="gap:5px"><div class="m-bar dark" style="width:30%"></div><div class="m-field"></div></div><div class="m-col" style="gap:5px"><div class="m-bar dark" style="width:38%"></div><div class="m-field"></div></div><div class="m-col" style="gap:5px"><div class="m-bar dark" style="width:26%"></div><div class="m-field"></div></div></div></div>`,
+    rule:'Bind labels to their fields',
+    why:'In A every gap is 12 px, so each label floats exactly between two fields — ownership is ambiguous and users hesitate. In B the label sits 5 px from its own field and 20 px from the previous pair: the spacing itself says “these go together.” Space within a group must be smaller than space between groups.',
+    src:'Law of Proximity · NN/g form design'},
+  {type:'spot', prompt:'Something here doesn’t know where it belongs. Tap it.', correct:2,
+    mock:`<div class="mock"><div class="m-row" style="gap:16px;align-items:stretch"><div class="hot m-card" style="flex:1;padding:10px"><div class="m-chart"><i style="height:45%"></i><i style="height:70%"></i><i style="height:55%"></i><i style="height:88%"></i></div></div><div class="hot m-card" style="flex:1;padding:10px"><div class="m-chart"><i style="height:80%"></i><i style="height:50%"></i><i style="height:65%"></i><i style="height:35%"></i></div></div></div><div class="hot" style="margin:10px auto 0;padding:5px;width:70%;text-align:center"><div class="m-cap">Fig. 2 — Median income by region, 2024</div></div></div>`,
+    rule:'Equidistant = ambiguous',
+    why:'The caption sits exactly between the two charts, so proximity gives no verdict on which figure it describes. Pull it directly under its own chart — closer to its figure than to anything else — and the ambiguity disappears without adding a single line or label.',
+    src:'Laws of UX · Law of Proximity'},
+  {type:'mcq', prompt:'You need to present 12 filter options. Strongest move?', correct:1,
+    options:['One alphabetical list of 12','Three labeled groups of about 4','A dropdown hiding all 12','Show 6, tuck 6 behind “More”'],
+    rule:'Chunk long lists into labeled groups',
+    why:'Working memory juggles only a handful of items — but it counts chunks, not entries. Three named groups of four scan as three things, not twelve. Grouping also teaches the shape of the data, which is half the job in a data story.',
+    src:'Laws of UX · Miller’s Law'},
+  {type:'ab', prompt:'A reader gets three seconds on this page. Which version tells them where to look?', correct:1,
+    mockA:`<div class="mock"><div class="m-col" style="gap:10px"><div class="m-bar dark" style="width:85%"></div><div class="m-bar dark" style="width:80%"></div><div class="m-bar dark" style="width:88%"></div><div class="m-bar dark" style="width:75%"></div><div class="m-bar dark" style="width:82%"></div><div class="m-bar dark" style="width:78%"></div></div></div>`,
+    mockB:`<div class="mock"><div class="m-col" style="gap:24px"><div class="m-col" style="gap:8px"><div class="m-bar xd" style="width:55%"></div><div class="m-bar" style="width:85%"></div><div class="m-bar" style="width:80%"></div></div><div class="m-col" style="gap:8px"><div class="m-bar xd" style="width:45%"></div><div class="m-bar" style="width:88%"></div><div class="m-bar" style="width:70%"></div></div></div></div>`,
+    rule:'Hierarchy is size, weight and space',
+    why:'People scan web pages in ragged F-shaped passes; almost nobody reads linearly. B offers landmarks — bigger heads, grouped sections, air between them — so a scanner finds the point in seconds. A is a wall: uniform emphasis forces reading every line to find anything.',
+    src:'NN/g · F-shaped scanning pattern'},
+  {type:'tf', prompt:'If everything on the page is emphasized, nothing is.', correct:0,
+    rule:'Emphasis is a budget',
+    why:'Bold, color, size and motion only work by contrast with what stays quiet. Spend emphasis on the one thing each view exists to say — in a data story, usually the takeaway — and let everything else recede to secondary weight.',
+    src:'IxDF · visual hierarchy'},
+  {type:'mcq', prompt:'A chart and its controls (year slider, region toggle) must read as one unit. The cheapest reliable signal?', correct:0,
+    options:['Put both inside the same card','Give the controls a colored border','Caption: “controls for the chart above”','Match their accent colors'],
+    rule:'Shared containers group — common region',
+    why:'Elements inside one visible boundary are perceived as one unit. A single card around chart plus controls beats labels and color-matching — and it survives responsive reflow, because the group stacks together for the simple reason that it is together.',
+    src:'Laws of UX · Law of Common Region'},
+  {type:'tf', prompt:'Space between sections should be larger than space inside them.', correct:0,
+    rule:'Macro space beats micro space',
+    why:'That ratio is the entire structure of a page: tight inside groups, generous between them. When a layout feels “weird” in review, check this first — very often some between-space has become smaller than some within-space, and the hierarchy has quietly inverted.',
+    src:'Gestalt proximity · applied'},
+];
+const EX_M3L1 = [
+  {type:'ab', prompt:'An export dialog. Which one lets the user decide faster?', correct:1,
+    mockA:`<div class="mock"><div class="m-col" style="gap:12px"><div class="m-bar dark" style="width:50%"></div><div class="m-bar" style="width:85%"></div><div class="m-bar" style="width:70%"></div><div class="m-row" style="gap:8px;margin-top:6px;justify-content:flex-end"><span class="m-btn p">Cancel</span><span class="m-btn p">Export</span></div></div></div>`,
+    mockB:`<div class="mock"><div class="m-col" style="gap:12px"><div class="m-bar dark" style="width:50%"></div><div class="m-bar" style="width:85%"></div><div class="m-bar" style="width:70%"></div><div class="m-row" style="gap:8px;margin-top:6px;justify-content:flex-end"><span class="m-btn g">Cancel</span><span class="m-btn p">Export PNG</span></div></div></div>`,
+    rule:'One primary action per view',
+    why:'Two solid buttons compete for the same eye. Visual weight should mirror importance: one filled primary for the main path, a quiet secondary for the exit — the answer is visible before a single word is read. Every extra competing choice adds decision time.',
+    src:'Hick’s Law · button hierarchy'},
+  {type:'mcq', prompt:'A dialog asks: “Delete this chart?” Best confirm label?', correct:3,
+    options:['OK','Yes','Confirm','Delete chart'],
+    rule:'Labels say what the button does',
+    why:'“OK” forces a re-read of the question to know what you’re agreeing to — and mis-clicks on destructive actions are expensive. A verb-plus-object label carries its own meaning, supports scanning, and works for screen-reader users who navigate by button list.',
+    src:'NN/g · dialog & button labels'},
+  {type:'tf', prompt:'A destructive action should look exactly like every other primary button.', correct:1,
+    rule:'Danger looks different',
+    why:'Deletion gets its own styling — typically red — and ideally an undo window instead of a nagging confirm; constant “Are you sure?” dialogs train people to click through them. Distinct danger styling is the last chance to catch autopilot before it costs someone their work.',
+    src:'NN/g · confirmations & undo'},
+  {type:'mcq', prompt:'The team wants “Download data” to appear only when hovering the chart. Verdict?', correct:1,
+    options:['Elegant — reduces clutter','Breaks on touch screens and hides the feature','Fine if the transition is smooth','Fine if it’s also in the footer'],
+    rule:'Hover is an enhancement, not a home',
+    why:'Phones and tablets have no hover, so for a large slice of the audience the button simply does not exist. Even on desktop, invisible affordances go undiscovered. Show the action; use hover to enrich — highlight, preview — never as the only door to a feature.',
+    src:'NN/g · hover-dependent UI'},
+  {type:'mcq', prompt:'Minimum comfortable size for anything tappable?', correct:2,
+    options:['24 px — WCAG’s floor is enough','32 px','44–48 px','64 px, everywhere'],
+    rule:'Targets: 44–48 px, with air around them',
+    why:'Apple’s HIG says 44 pt; Material says 48 dp; WCAG 2.5.8’s 24 px is a legal floor, not a goal. Fitts’s Law is the physics underneath: smaller and farther targets take measurably longer to hit — and get missed. Fingers are not cursors.',
+    src:'Apple HIG · Material · Fitts’s Law'},
+  {type:'spot', prompt:'One of these three is a status badge that does nothing — it’s wearing the wrong clothes. Tap it.', correct:1,
+    mock:`<div class="mock"><div class="m-row" style="gap:10px;justify-content:center;padding:6px 0"><span class="hot" style="display:inline-flex;padding:4px"><span class="m-btn p">Export</span></span><span class="hot" style="display:inline-flex;padding:4px"><span class="m-btn g">Beta</span></span><span class="hot" style="display:inline-flex;padding:4px"><span class="m-btn g">Share</span></span></div></div>`,
+    rule:'If it looks clickable, it must be clickable',
+    why:'A badge dressed in button clothes collects clicks that do nothing — and every dead click teaches users to distrust your real buttons. Signifiers are a contract: button-shaped means pressable. Style metadata as metadata — flat, quiet, unboxed.',
+    src:'Don Norman · signifiers'},
+  {type:'tf', prompt:'Best practice: keep “Generate report” disabled until the form is valid, with no explanation.', correct:1,
+    rule:'Silent disabled buttons are dead ends',
+    why:'A greyed button says “no” without saying why — users retry, stall, or leave. Either keep it enabled and return precise inline errors on click, or pair the disabled state with a visible reason (“Add at least one dataset”). Never make users guess the rule.',
+    src:'Usability heuristics · error prevention'},
+  {type:'mcq', prompt:'Which of these should be a text link, not a button?', correct:1,
+    options:['Apply filters','Read the methodology','Export PNG','Clear selection'],
+    rule:'Buttons act, links navigate',
+    why:'“Read the methodology” goes somewhere; the other three do something. Users carry that distinction in from every site they have ever used — your interface is interpreted through all the others. Navigation dressed as buttons inflates the hierarchy and buries the real actions.',
+    src:'Jakob’s Law · web conventions'},
+];
+const EX_M5L1 = [
+  {type:'mcq', prompt:'Your dashboard re-renders in about 150 ms. When should filters apply?', correct:0,
+    options:['Instantly, on every change','Only after an Apply button','After a 2-second animated transition','On page reload'],
+    rule:'Fast results → live filtering',
+    why:'When updates land inside about 400 ms — the Doherty threshold — instant application keeps users in flow: each click is a question, each update an answer. An Apply button here just adds a toll booth to a free road.',
+    src:'NN/g · Applying Filters — Doherty threshold'},
+  {type:'mcq', prompt:'Same dashboard — but each query now takes 3–5 s, and users typically combine several facets. Now what?', correct:1,
+    options:['Still live — speed is the developer’s problem','Batch: compose filters, then one Apply','Limit users to a single filter','Remove filtering from the story'],
+    rule:'Slow or multi-facet → batch, with Apply',
+    why:'Live filtering on a slow query punishes every click with a wait, and re-flows the results while the user is still composing their question. Batch mode lets them build the full query, then pay the cost once. NN/g’s point: the mode is a design decision, made from result speed and user intent — not a default.',
+    src:'NN/g · Batch vs. Interactive Filtering'},
+  {type:'ab', prompt:'Three filters are active. Which results view keeps the user oriented?', correct:0,
+    mockA:`<div class="mock"><div class="m-col" style="gap:10px"><div class="m-row" style="gap:6px;flex-wrap:wrap"><span class="m-chip">Europe <b>×</b></span><span class="m-chip">2023–24 <b>×</b></span><span class="m-chip">Urban <b>×</b></span></div><div class="m-cap">128 results · Clear all</div><div class="m-card" style="height:30px"></div><div class="m-card" style="height:30px"></div><div class="m-card" style="height:30px"></div></div></div>`,
+    mockB:`<div class="mock"><div class="m-col" style="gap:10px"><div class="m-row" style="justify-content:flex-end"><span class="m-btn g">Filters</span></div><div class="m-card" style="height:30px"></div><div class="m-card" style="height:30px"></div><div class="m-card" style="height:30px"></div></div></div>`,
+    rule:'Show active filters as removable chips',
+    why:'Users must always see what is shaping the data — visibility of system status is usability heuristic #1. Chips do triple duty: they announce the current query, remove any one filter in one tap, and “Clear all” resets. In B the state is invisible, and readers will mistake filtered data for all the data — deadly in a data story.',
+    src:'Nielsen’s heuristic #1 · filter chips'},
+  {type:'mcq', prompt:'A user filters their way down to zero results. What should they see?', correct:2,
+    options:['A clean, blank area','“0 results”','“0 results” + the active filters + one-tap ways to loosen them','An automatic redirect to the unfiltered view'],
+    rule:'Never dead-end an empty state',
+    why:'Zero results is an answer, not an error — but it must come with a way forward: name the filters responsible, offer per-chip removal and “clear all,” suggest widening the range. The auto-redirect is worse than the dead end: it throws away the user’s intent without asking.',
+    src:'NN/g · empty states & recovery'},
+  {type:'tf', prompt:'On a desktop dashboard, hiding all filters behind a small funnel icon is best practice — it saves space.', correct:1,
+    rule:'On desktop, keep filters visible',
+    why:'Filters users can’t see are filters they don’t use. With sidebar or top-bar room available, exposed filters advertise what the data can answer. Collapsing into an icon is a mobile pattern — and even there, the filter sheet should end in a labeled “Show 43 results” button, not a mystery.',
+    src:'NN/g · filters & faceted search'},
+  {type:'spot', prompt:'One resident of this filter panel doesn’t belong. Tap it.', correct:2,
+    mock:`<div class="mock"><div class="m-col" style="gap:6px"><div class="hot" style="padding:8px"><div class="m-cap" style="font-weight:700;letter-spacing:.08em">REGION</div><div class="m-col" style="gap:5px;margin-top:6px"><span class="m-check on"><i></i> Europe</span><span class="m-check"><i></i> Americas</span><span class="m-check"><i></i> Asia–Pacific</span></div></div><div class="hot" style="padding:8px"><div class="m-cap" style="font-weight:700;letter-spacing:.08em">YEAR</div><div class="m-row" style="gap:5px;margin-top:6px;flex-wrap:wrap"><span class="m-chip">2022</span><span class="m-chip" style="border-color:#1E6E64;color:#1E6E64">2023</span><span class="m-chip">2024</span></div></div><div class="hot" style="padding:8px"><div class="m-cap" style="font-weight:700;letter-spacing:.08em">SORT BY</div><div class="m-col" style="gap:5px;margin-top:6px"><span class="m-check on"><i></i> Newest first</span><span class="m-check"><i></i> Highest value</span></div></div><div class="hot" style="padding:8px"><div class="m-cap" style="font-weight:700;letter-spacing:.08em">METRIC</div><div class="m-col" style="gap:5px;margin-top:6px"><span class="m-check on"><i></i> Median income</span><span class="m-check"><i></i> Growth rate</span></div></div></div></div>`,
+    rule:'Sorting is not filtering',
+    why:'Filters narrow the set; sort reorders it. Users hold different mental models for the two, so a sort control bunking in the facet panel makes both harder to find — and invites “where did my data go?” confusion. Give sort its own control, attached to the results.',
+    src:'NN/g · filters vs. sorting'},
+  {type:'mcq', prompt:'A user sets four filters, opens one country’s detail page, then taps Back. Best behavior?', correct:1,
+    options:['Filters reset — fresh start','Filters persist, encoded in the URL','A dialog asks whether to keep them','They persist, but the chips are hidden'],
+    rule:'Filter state lives in the URL',
+    why:'Back must return users to the view they built — losing four choices to a page hop feels like theft. URL-encoded state also makes every filtered view bookmarkable and shareable: a reader can send a colleague the exact cut of the story they’re looking at. For a data studio, that is free distribution.',
+    src:'NN/g · faceted search — user control'},
+  {type:'tf', prompt:'Region: France and Spain both checked. Year: 2024. Correct result — items from France OR Spain, AND from 2024.', correct:0,
+    rule:'OR within a facet, AND across facets',
+    why:'This is the boolean convention behind nearly every filter UI your users have ever met; a literal AND on France + Spain would return nothing. Break it silently and the data just looks wrong. If a facet must behave differently, say so in the interface — “match all” toggles exist for exactly this.',
+    src:'Faceted search convention · Jakob’s Law'},
+  {type:'mcq', prompt:'Results are recomputing after Apply. What does the user see?', correct:2,
+    options:['A frozen UI until data lands','A full-page spinner','Skeleton rows in the results area; filters stay visible and interactive','Blank results, then a pop-in'],
+    rule:'Load in place; keep context stable',
+    why:'Skeletons in the results zone say “working on exactly this” while chips and facets stay on screen — status visible, context preserved, no layout jump on arrival. A full-page spinner throws away the user’s bearings to announce what a skeleton says better.',
+    src:'Nielsen’s heuristic #1 · skeleton screens'},
+];
+
+const COURSE = {
+  title:'UX Atelier',
+  sub:'A field course in web UX for data storytellers. Short, playable lessons — every answer explained, every rule sourced.',
+  modules:[
+    {num:1, title:'Space & Structure', tag:'Spacing systems, alignment, grouping', lessons:[
+      {id:'1.1', title:'The invisible grid', meta:'Spacing scales · alignment · 7 exercises', ex:EX_M1L1},
+      {id:'1.2', title:'Close means related', meta:'Proximity · grouping · hierarchy · 8 exercises', ex:EX_M1L2},
+      {id:'1.3', title:'Columns & breakpoints', meta:'12-col grids · gutters · fluid layout', locked:true},
+    ]},
+    {num:2, title:'Type & Hierarchy', tag:'Scale, rhythm, readable text', lessons:[
+      {id:'2.1', title:'A scale, not sizes', meta:'Type scales · weight · emphasis budget', locked:true},
+      {id:'2.2', title:'Built to be read', meta:'Line length · line height · WCAG contrast', locked:true},
+    ]},
+    {num:3, title:'Buttons & Actions', tag:'Hierarchy, labels, states, targets', lessons:[
+      {id:'3.1', title:'One clear next step', meta:'Primary/secondary · labels · targets · 8 exercises', ex:EX_M3L1},
+      {id:'3.2', title:'States & feedback', meta:'Hover, focus, active, disabled, loading', locked:true},
+    ]},
+    {num:4, title:'Forms & Inputs', tag:'Labels, validation, helpful errors', lessons:[
+      {id:'4.1', title:'Labels that stick', meta:'Placement · placeholders · defaults', locked:true},
+      {id:'4.2', title:'Errors that help', meta:'Inline validation · recovery', locked:true},
+    ]},
+    {num:5, title:'Filters & Exploration', tag:'The data-story module: filtering done right', lessons:[
+      {id:'5.1', title:'Filters that don’t fight back', meta:'Batch vs live · chips · empty states · 9 exercises', ex:EX_M5L1},
+      {id:'5.2', title:'Search, sort & the URL', meta:'Search vs filter · shareable state', locked:true},
+    ]},
+    {num:6, title:'Motion, Feedback & Web Reality', tag:'What the medium demands', lessons:[
+      {id:'6.1', title:'Feedback in 100 ms', meta:'System status · loading · Doherty threshold', locked:true},
+      {id:'6.2', title:'The scroll is sacred', meta:'Scrolljacking · hover on touch · performance', locked:true},
+    ]},
+  ]
+};
+
+const GUIDE = [
+  {title:'Space & Structure', open:true, rules:[
+    {t:'Space on one scale: every margin, padding and gap is a multiple of a base unit (8 px, with 4 px for fine detail).', s:'Material Design · 8dp grid'},
+    {t:'Everything aligns to something — shared edges are free structure; unintended indents read as bugs.', s:'IxDF · alignment'},
+    {t:'Space within a group is smaller than space between groups. Equidistant means ambiguous.', s:'Laws of UX · Proximity'},
+    {t:'Things that belong together share a container — a chart and its controls live in one card.', s:'Laws of UX · Common Region'},
+    {t:'Chunk long lists into small labeled groups; people count chunks, not items.', s:'Laws of UX · Miller’s Law'},
+    {t:'Whitespace is functional: it paces scanning and carries hierarchy. Dense ≠ informative.', s:'NN/g · reading online'},
+    {t:'The web has no canvas. Design the reflow from 320 px up, or the browser designs it for you.', s:'Responsive web design'},
+  ]},
+  {title:'Type & Hierarchy · v2', rules:[
+    {t:'Sizes come from a type scale; emphasis is a budget — spend it about once per view.', s:'IxDF · visual hierarchy'},
+    {t:'Body text: line-height around 1.5, line length 45–75 characters.', s:'Typographic practice'},
+    {t:'Text contrast at least 4.5:1 (3:1 for large text).', s:'WCAG 1.4.3'},
+    {t:'Users scan in F-shaped passes — front-load headings and the first two words of lines.', s:'NN/g · F-pattern'},
+  ]},
+  {title:'Buttons & Actions', rules:[
+    {t:'One primary action per view; secondary actions stay visually quiet.', s:'Hick’s Law · hierarchy'},
+    {t:'Labels are verb + object (“Delete chart”) — never “OK”.', s:'NN/g · dialogs'},
+    {t:'Destructive actions look different, and undo beats “Are you sure?”.', s:'NN/g · confirmations'},
+    {t:'Touch targets 44–48 px with spacing between them; WCAG’s 24 px is a floor, not a goal.', s:'Apple HIG · Material · WCAG 2.5.8'},
+    {t:'Nothing essential lives behind hover — touch screens don’t have one.', s:'NN/g · hover UI'},
+    {t:'If it looks clickable it must be clickable — and the reverse.', s:'Don Norman · signifiers'},
+    {t:'Buttons act, links navigate. Don’t dress one as the other.', s:'Jakob’s Law'},
+  ]},
+  {title:'Forms & Inputs · v2', rules:[
+    {t:'Labels sit above their fields, bound by proximity; placeholders are not labels.', s:'NN/g · forms'},
+    {t:'Validate inline at the right moment; error messages say how to recover, not just that you failed.', s:'NN/g · error messages'},
+    {t:'Sensible defaults beat forced choices.', s:'Usability heuristics'},
+  ]},
+  {title:'Filters & Exploration', rules:[
+    {t:'Fast results → filters apply live. Slow queries or multi-facet sessions → batch, with an Apply button.', s:'NN/g · Applying Filters'},
+    {t:'Active filters always visible: removable chips, a result count, and Clear all.', s:'Nielsen’s heuristic #1'},
+    {t:'Desktop keeps filters exposed; mobile uses a sheet that returns “Show N results”.', s:'NN/g · faceted search'},
+    {t:'OR within a facet, AND across facets — or say otherwise in the UI.', s:'Faceted search convention'},
+    {t:'Zero results is never a dead end: name the filters, offer one-tap loosening.', s:'NN/g · empty states'},
+    {t:'Filter state lives in the URL: Back is safe, and every view is shareable.', s:'NN/g · user control'},
+    {t:'Sort is not a filter — it gets its own control at the results.', s:'NN/g · filters vs. sorting'},
+  ]},
+  {title:'Motion, Feedback & Web Reality · v2', rules:[
+    {t:'Every action gets a response within 100 ms; keep the loop under 400 ms to preserve flow.', s:'Doherty threshold'},
+    {t:'Load in place with skeletons — never freeze, never blank the page.', s:'Nielsen’s heuristic #1'},
+    {t:'Never hijack scroll. The scrollbar is the reader’s steering wheel.', s:'NN/g · scrolljacking'},
+    {t:'Motion explains a state change; it never gates content.', s:'Material · motion'},
+    {t:'Performance is UX — page weight is a design decision.', s:'Web performance'},
+  ]},
+];
+
+/* -------------------- STATE + ENGINE -------------------- */
+const S = { screen:'map', tab:'map', xp:0, done:{}, m:0, l:0, i:0, right:0, streak:0, best:0, recap:[], answered:false };
+const $ = sel => document.querySelector(sel);
+const app = document.getElementById('app');
+const sheet = document.getElementById('sheet');
+
+function render(){
+  if(S.screen==='map') renderHome();
+  else if(S.screen==='lesson') renderEx();
+  else if(S.screen==='end') renderEnd();
+  window.scrollTo(0,0);
+}
+
+function renderHome(){
+  const total = COURSE.modules.reduce((n,m)=>n+m.lessons.filter(l=>l.ex).length,0);
+  const doneN = Object.keys(S.done).length;
+  let h = `<div class="fade">
+    <div class="topbar">
+      <div class="brand">Parabole · Studio School</div>
+      <div class="xp-pill">${ICONS.star} ${S.xp} XP</div>
+    </div>
+    <div class="hero">
+      <h1>${COURSE.title}</h1>
+      <p>${COURSE.sub}</p>
+    </div>
+    <div class="tabs">
+      <button class="tab ${S.tab==='map'?'on':''}" onclick="S.tab='map';render()">Course</button>
+      <button class="tab ${S.tab==='guide'?'on':''}" onclick="S.tab='guide';render()">Field guide</button>
+    </div>`;
+  if(S.tab==='map'){
+    h += COURSE.modules.map((m,mi)=>{
+      const playable = m.lessons.filter(l=>l.ex);
+      const doneHere = playable.filter(l=>S.done[l.id]).length;
+      const locked = playable.length===0;
+      const prog = locked ? 'v2' : `${doneHere}/${playable.length}`;
+      return `<section class="module ${locked?'locked':''}">
+        <div class="module-head">
+          <div class="module-num">${m.num}</div>
+          <div>
+            <div class="module-title">${m.title}</div>
+            <div class="module-tag">${m.tag}</div>
+          </div>
+          <div class="module-prog ${doneHere && doneHere===playable.length?'done':''}">${prog}</div>
+        </div>
+        <div class="lessons">${m.lessons.map((l,li)=>{
+          if(l.locked) return `<div class="lesson locked">
+              <span class="dot">${''}</span>
+              <span><span class="l-name">${l.title}</span><br><span class="l-meta">${l.meta}</span></span>
+              <span class="go">${ICONS.lock}</span></div>`;
+          const done = S.done[l.id];
+          return `<button class="lesson ${done?'done':'play'}" onclick="startLesson(${mi},${li})">
+              <span class="dot">${done?ICONS.check:''}</span>
+              <span><span class="l-name">${l.title}</span><br><span class="l-meta">${l.meta}</span></span>
+              <span class="go">${done?'Replay':'Start'}</span></button>`;
+        }).join('')}</div>
+      </section>`;
+    }).join('');
+    h += `<p class="foot-note">v1 prototype — ${total} lessons playable, ${doneN} completed.<br>
+      Grounded in Nielsen Norman Group research, Laws of UX, IxDF, Apple HIG / Material, WCAG.<br>
+      Progress lives in this session only; a hosted version would save it per teammate.</p>`;
+  } else {
+    h += GUIDE.map((g,gi)=>`<section class="guide-mod ${g.open?'open':''}">
+        <button class="guide-head" onclick="GUIDE[${gi}].open=!GUIDE[${gi}].open;render()">
+          <span class="module-num" style="width:34px;height:34px;font-size:.9rem">${gi+1}</span>
+          <span class="t">${g.title}</span>${ICONS.chev}
+        </button>
+        <div class="guide-body">${g.rules.map(r=>`
+          <div class="rule">${ICONS.bulb}<span>${r.t}<span class="r-src">${r.s}</span></span></div>`).join('')}
+        </div>
+      </section>`).join('');
+    h += `<p class="foot-note">The field guide is the course in reference form — handy when giving design feedback:<br>point at the rule, not at taste.</p>`;
+  }
+  h += `</div>`;
+  app.innerHTML = h;
+}
+
+function startLesson(mi,li){
+  S.m=mi; S.l=li; S.i=0; S.right=0; S.streak=0; S.best=0; S.recap=[]; S.answered=false;
+  S.screen='lesson'; render();
+}
+const curEx = () => COURSE.modules[S.m].lessons[S.l].ex[S.i];
+const curLesson = () => COURSE.modules[S.m].lessons[S.l];
+
+function renderEx(){
+  const exs = curLesson().ex, e = curEx();
+  const kicker = `${COURSE.modules[S.m].title} · ${curLesson().title}`;
+  let body='';
+  if(e.type==='mcq' || e.type==='tf'){
+    const opts = e.type==='tf' ? ['True','False'] : e.options;
+    const rowCls = e.type==='tf' ? 'tf-row' : 'opts';
+    body = `<div class="${rowCls}">${opts.map((o,i)=>`
+      <button class="opt" id="opt${i}" onclick="answer(${i})">
+        ${e.type==='tf'?'':`<span class="key">${String.fromCharCode(65+i)}</span>`}<span>${o}</span>
+      </button>`).join('')}</div>`;
+  } else if(e.type==='ab'){
+    body = `<div class="ab-wrap">
+      <button class="ab-card" id="opt0" onclick="answer(0)"><span class="ab-label">A</span>${e.mockA}</button>
+      <button class="ab-card" id="opt1" onclick="answer(1)"><span class="ab-label">B</span>${e.mockB}</button>
+    </div>`;
+  } else if(e.type==='spot'){
+    body = `<div class="spot-mock">${e.mock}</div><div class="spot-hint">Tap the element that breaks the rule</div>`;
+  }
+  app.innerHTML = `<div class="fade">
+    <div class="lesson-top">
+      <button class="icon-btn" onclick="quitLesson()" aria-label="Exit lesson">${ICONS.close}</button>
+      <div class="prog-track"><div class="prog-fill" style="width:${(S.i/exs.length)*100}%"></div></div>
+      <div class="streak ${S.streak>=3?'hot':''}">${ICONS.flame} ${S.streak}</div>
+    </div>
+    <div class="ex-kicker">${kicker} · ${S.i+1}/${exs.length}</div>
+    <div class="ex-prompt">${e.prompt}</div>
+    ${body}
+  </div>`;
+  if(e.type==='spot'){
+    document.querySelectorAll('.hot').forEach((el,i)=>{
+      el.addEventListener('click',ev=>{ev.stopPropagation();answer(i);});
+    });
+  }
+}
+
+function answer(i){
+  if(S.answered) return;
+  S.answered = true;
+  const e = curEx();
+  const ok = i===e.correct;
+  if(e.type==='spot'){
+    const hots = document.querySelectorAll('.hot');
+    hots[i].classList.add(ok?'right':'wrong');
+    if(!ok) hots[e.correct].classList.add('right');
+  } else {
+    const chosen = $('#opt'+i), right = $('#opt'+e.correct);
+    if(chosen) chosen.classList.add(ok?'right':'wrong');
+    if(!ok && right) right.classList.add('right');
+    document.querySelectorAll('.opt,.ab-card').forEach(b=>b.disabled=true);
+  }
+  if(ok){ S.right++; S.streak++; S.best=Math.max(S.best,S.streak); S.xp+=10; }
+  else S.streak=0;
+  S.recap.push({rule:e.rule, ok});
+  showSheet(ok,e);
+}
+
+function showSheet(ok,e){
+  const last = S.i === curLesson().ex.length-1;
+  document.getElementById('sheetInner').innerHTML = `
+    <div class="sheet-head">
+      <span class="verdict-ic">${ok?ICONS.check:ICONS.cross}</span>
+      <span class="verdict-t">${ok? praise() : 'Not quite'}</span>
+      ${ok?`<span class="sheet-xp">+10 XP</span>`:''}
+    </div>
+    <div class="why"><b>${e.rule}.</b> ${e.why}</div>
+    <span class="src-chip">${ICONS.book} ${e.src}</span>
+    <button class="btn ${ok?'btn-primary':'btn-ghost'} btn-block" onclick="next()">${last?'Finish lesson':'Continue'}</button>`;
+  sheet.className = 'sheet open ' + (ok?'ok':'no');
+}
+const PRAISE=['Exactly','Sharp eye','Correct','That’s the one','Well spotted','Clean'];
+let pi=0; const praise=()=>PRAISE[(pi++)%PRAISE.length];
+
+function next(){
+  sheet.className='sheet';
+  const exs = curLesson().ex;
+  if(S.i < exs.length-1){ S.i++; S.answered=false; render(); }
+  else { S.done[curLesson().id]=true; S.screen='end'; render(); }
+}
+function quitLesson(){ sheet.className='sheet'; S.screen='map'; render(); }
+
+function renderEnd(){
+  const exs = curLesson().ex, n = exs.length;
+  const pct = Math.round((S.right/n)*100);
+  const R=58, C=2*Math.PI*R;
+  app.innerHTML = `<div class="fade end-wrap">
+    <div class="end-ring">
+      <svg width="132" height="132" viewBox="0 0 132 132">
+        <circle cx="66" cy="66" r="${R}" fill="none" stroke="#E9E6DE" stroke-width="10"/>
+        <circle cx="66" cy="66" r="${R}" fill="none" stroke="${pct===100?'#C99A2E':'#1E6E64'}" stroke-width="10"
+          stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-S.right/n)}"
+          transform="rotate(-90 66 66)"/>
+        <text x="66" y="63" text-anchor="middle" class="num" fill="#1C1B1A" font-family="Georgia,serif" font-size="30" font-weight="700">${S.right}/${n}</text>
+        <text x="66" y="84" text-anchor="middle" fill="#9B958A" font-size="12" font-weight="600">correct</text>
+      </svg>
+    </div>
+    <div class="end-title">${pct===100?'Flawless.':pct>=70?'Lesson complete':'Lesson complete — worth a replay'}</div>
+    <div class="end-sub">${curLesson().title} · ${COURSE.modules[S.m].title}</div>
+    <div class="end-stats">
+      <div class="stat"><div class="v">+${S.right*10}</div><div class="k">XP</div></div>
+      <div class="stat"><div class="v">${S.best}</div><div class="k">Best streak</div></div>
+      <div class="stat"><div class="v">${pct}%</div><div class="k">Accuracy</div></div>
+    </div>
+    <div class="recap"><h3>Rules from this lesson</h3>${S.recap.map(r=>`
+      <div class="recap-item"><span style="color:${r.ok?'#2F7A44':'#BE4A2E'}">${r.ok?ICONS.check:ICONS.cross}</span><span>${r.rule}</span></div>`).join('')}
+    </div>
+    <div class="end-actions">
+      <button class="btn btn-primary btn-block" onclick="S.screen='map';render()">Back to course</button>
+      <button class="btn btn-ghost btn-block" onclick="startLesson(S.m,S.l)">Replay lesson</button>
+    </div>
+  </div>`;
+}
+
+render();
+</script>
+</body>
+</html>
