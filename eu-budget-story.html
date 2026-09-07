@@ -377,6 +377,39 @@
     border: 1px solid var(--border);
   }
 
+  /* Subtasks */
+  .subtasks {
+    margin-top: 10px;
+    padding-left: 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .subtask {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .subtask-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: var(--cool-gray);
+  }
+
+  .subtask-icon.done { color: var(--moss); }
+  .subtask-icon.current { color: var(--accent-yellow); }
+
+  .subtask-date {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-left: auto;
+  }
+
   /* ---- DOCUMENTS ---- */
   .documents-card {
     background: var(--surface);
@@ -513,7 +546,7 @@
       <span class="dot"></span>
       In Progress
     </div>
-    <span class="status-updated mono" style="font-size: 12px;">Updated Aug 20, 2026</span>
+    <span class="status-updated mono" style="font-size: 12px;">Updated Sep 7, 2026</span>
   </div>
 
   <!-- Overview: timeline + progress -->
@@ -527,9 +560,9 @@
       <div class="progress-row">
         <div class="progress-row-label mono" style="font-size: 12px;">Progress</div>
         <div class="progress-track">
-          <div class="progress-fill" style="width: 5%"></div>
+          <div class="progress-fill" style="width: 30%"></div>
         </div>
-        <div class="progress-pct mono">5%</div>
+        <div class="progress-pct mono">30%</div>
       </div>
     </div>
   </div>
@@ -563,31 +596,63 @@
         </div>
       </div>
 
-      <!-- 3. Visual solutions — To do -->
-      <div class="task is-upcoming">
-        <div class="task-header">
-          <div class="task-check upcoming"></div>
-          <div class="task-body">
-            <div class="task-title">Visual solutions</div>
-            <div class="task-meta mono">Sep 7 — Sep 15</div>
-          </div>
-          <div class="task-tag upcoming">Up next</div>
-        </div>
-      </div>
-
-      <!-- 4. Narrative & data research — In Progress -->
+      <!-- 3. Final narrative & data — In Progress -->
       <div class="task">
         <div class="task-header">
           <div class="task-check current"></div>
           <div class="task-body">
-            <div class="task-title">Narrative &amp; data research</div>
-            <div class="task-meta mono">Aug 20 — Sep 4</div>
+            <div class="task-title">Final narrative &amp; data</div>
+            <div class="task-meta mono">Sep 7 — Sep 18</div>
           </div>
           <div class="task-tag current">In progress</div>
         </div>
       </div>
 
-      <!-- 5. Kickoff with ONE EU team — Done -->
+      <!-- 4. Visual solutions — In Progress -->
+      <div class="task">
+        <div class="task-header">
+          <div class="task-check current"></div>
+          <div class="task-body">
+            <div class="task-title">Visual solutions</div>
+            <div class="task-meta mono">Sep 7 — Sep 15</div>
+          </div>
+          <div class="task-tag current">In progress</div>
+        </div>
+        <div class="subtasks">
+          <div class="subtask">
+            <svg class="subtask-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+            Page layout
+          </div>
+          <div class="subtask">
+            <svg class="subtask-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+            Flourish charts
+          </div>
+          <div class="subtask">
+            <svg class="subtask-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+            WhatsApp
+          </div>
+          <div class="subtask">
+            <svg class="subtask-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+            PDFs
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Narrative angle & data research — Done -->
+      <div class="task">
+        <div class="task-header">
+          <div class="task-check done">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="task-body">
+            <div class="task-title">Narrative angle &amp; data research</div>
+            <div class="task-meta mono">Aug 20 — Sep 4</div>
+          </div>
+          <div class="task-tag done">Done</div>
+        </div>
+      </div>
+
+      <!-- 6. Kickoff with ONE EU team — Done -->
       <div class="task">
         <div class="task-header">
           <div class="task-check done">
@@ -625,7 +690,7 @@
 
   <!-- Footer -->
   <div class="footer">
-    <span class="footer-updated mono">Updated August 20, 2026</span>
+    <span class="footer-updated mono">Updated September 7, 2026</span>
     <a href="mailto:evelina@parabole.studio" class="footer-contact">Questions? Get in touch</a>
   </div>
 
