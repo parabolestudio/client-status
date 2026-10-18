@@ -48,7 +48,11 @@ Anything else (Tracker = No or empty, or Paused / Completed / Canceled) gets no 
 2. For each match, create or update `[project-slug].html` following the steps below.
 3. Rewrite `index.html` so it lists exactly those projects, grouped Active (Planning + In Progress) and Wrapping up, with today's date on each card and in the footer.
 4. Deploy: when running with git access to the repo (e.g. a scheduled cloud session), commit the changes, merge to `main` and push yourself instead of asking Evelina to upload (Step 5). The live site updates from `main`.
-5. Finish with a short summary: pages updated, pages created, anything odd in Notion (e.g. tasks past their end date still marked To do).
+   Git steps: `git fetch origin main && git checkout -B claude/client-status-skill-file-hjgj3i origin/main`, commit, `git push -u origin claude/client-status-skill-file-hjgj3i`, then `git checkout main && git pull origin main && git merge --no-ff claude/client-status-skill-file-hjgj3i && git push origin main`.
+5. Finish with a short summary: pages updated, pages created, anything odd in Notion (e.g. tasks past their end date still marked To do, a parent marked Done while a subtask is still in progress).
+6. If the Notion tools are not available, change nothing and say so.
+
+Conventions to keep (copy them from the existing pages): tasks ordered to-do → in progress → done, newest end date first within each group; done parent tasks collapsed with subtasks removed; subtask icons are a plain circle (to do), a check (done) or a circle with a filled dot (in progress); progress % is an estimate from task completion; tasks deleted or archived in Notion are removed from the page; "Updated [today]" goes in both the status strip and the footer.
 
 **You MUST use Notion to get project data. NEVER ask Evelina for project details (status, timeline, completion, tasks, documents) — all of this lives in Notion and must be fetched automatically.** The only question you may ask is which project to update, and only if she didn't already say.
 
