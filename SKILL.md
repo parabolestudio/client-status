@@ -36,6 +36,20 @@ Use the Read tool to read `client-status-pages/client-status-page.html` from the
 
 Ask Evelina which project to update (or she will tell you). Then pull the data from Notion.
 
+### Which projects get a tracker
+A project gets a tracker page only when BOTH are true in the Projects database (`collection://34b4f30b-d27c-4eda-afc5-a5f86f98b6fd`):
+- **Tracker** (select) = `Yes`
+- **Status** is `Planning`, `In Progress` or `Wrapping up`
+
+Anything else (Tracker = No or empty, or Paused / Completed / Canceled) gets no new page and is left off the internal `index.html`. If a project that already has a page moves to Completed, flip its page to Done (100%) once, then drop it from the index. Never delete existing page files: clients may still have the links.
+
+### Full sync ("update all trackers", or the weekly scheduled run)
+1. Query the Projects data source in rows mode with filter Tracker = Yes, then keep only the three statuses above.
+2. For each match, create or update `[project-slug].html` following the steps below.
+3. Rewrite `index.html` so it lists exactly those projects, grouped Active (Planning + In Progress) and Wrapping up, with today's date on each card and in the footer.
+4. Deploy: when running with git access to the repo (e.g. a scheduled cloud session), commit the changes, merge to `main` and push yourself instead of asking Evelina to upload (Step 5). The live site updates from `main`.
+5. Finish with a short summary: pages updated, pages created, anything odd in Notion (e.g. tasks past their end date still marked To do).
+
 **You MUST use Notion to get project data. NEVER ask Evelina for project details (status, timeline, completion, tasks, documents) — all of this lives in Notion and must be fetched automatically.** The only question you may ask is which project to update, and only if she didn't already say.
 
 ### Pull from Notion
